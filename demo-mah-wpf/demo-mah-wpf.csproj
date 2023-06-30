@@ -200,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Task.cs" />
+    <Compile Include="TaskListDataTemplateSelector.cs" />
+    <Compile Include="Tasks.cs" />
+    <Compile Include="TaskType.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
