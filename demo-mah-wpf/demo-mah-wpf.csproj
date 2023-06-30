@@ -200,6 +200,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NameList.cs" />
+    <Compile Include="PersonObject.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="TaskListDataTemplateSelector.cs" />
     <Compile Include="Tasks.cs" />
