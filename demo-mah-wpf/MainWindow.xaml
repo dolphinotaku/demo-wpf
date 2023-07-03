@@ -65,8 +65,8 @@
 
         <local:NameList x:Key="NameListData"/>
         
-        <local:TaskList x:Key="MyTodoList"/>
-        <!--<local:TaskViewModel x:Key="MyTodoList"/>-->
+        <!--<local:TaskList x:Key="MyTodoList"/>-->
+        <local:TaskViewModel x:Key="MyTodoList"/>
         <local:TaskListDataTemplateSelector x:Key="MyDataTemplateSelector"/>
 
         <DataTemplate x:Key="ImportantTaskTemplate">

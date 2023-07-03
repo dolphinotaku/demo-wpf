@@ -8,10 +8,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows.Data;
 using System.ComponentModel;
+using demo_mah_wpf.Entity;
 
 namespace demo_mah_wpf
 {
-    public class TaskViewModel : ObservableCollection<Task>, INotifyPropertyChanged, INotifyCollectionChanged
+    public class TaskViewModel : BaseViewModel
     {
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         private ObservableCollection<Task> _Tasks;
@@ -21,7 +22,7 @@ namespace demo_mah_wpf
             set
             {
                 _Tasks = value;
-                //CollectionChanged(this, new PropertyChangedEventArgs());
+                SetProperty(ref _Tasks, value, () => Tasks);
             }
         }
 
@@ -39,10 +40,6 @@ namespace demo_mah_wpf
             // https://bartwullems.blogspot.com/2020/01/asynchronous-streams-using.html
 
             System.Threading.Tasks.Task.Run(async () => {
-                //await foreach (Task card in GetAllCards())
-                //{
-                //    this.Tasks.Add(card);
-                //}
                 var getTaskResult = this.GetAllTasks();
                 if(getTaskResult != null && getTaskResult.Result != null)
                 {
@@ -51,7 +48,8 @@ namespace demo_mah_wpf
                     {
                         foreach (Task task in getTaskResultList)
                         {
-                            Add(new Task(task.TaskName, task.Description, task.Priority, task.TaskType));
+                            //Add(new Task(task.TaskName, task.Description, task.Priority, task.TaskType));
+                            this.Tasks.Add(task);
                             CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
                         }
                         //Add(task);
@@ -67,7 +65,7 @@ namespace demo_mah_wpf
             for (int i = 1; i <= 3; i++)
             {
                 await System.Threading.Tasks.Task.Delay(1000);
-                Items.Add(new Task("Development", "Write a WPF program", 2, TaskType.Home));
+                Items.Add(new Task(string.Format("Development {0}",i+1), "Write a WPF program", 2, TaskType.Home));
             }
             return Items;
         }

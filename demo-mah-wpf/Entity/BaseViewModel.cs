@@ -3,31 +3,37 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace demo_mah_wpf.Entity
 {
-    public class ObservableSortedSet<T> : SortedSet<T>, INotifyPropertyChanged, INotifyCollectionChanged
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        public void NotifyPropertyChanged(string propName)
+        protected bool SetProperty<T>(ref T fieldReference, T newValue, Expression<Func<T>> property)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            bool valueIsDifferent = false;
+            if (!object.Equals(fieldReference, newValue))
+            {
+                valueIsDifferent = true;
+                fieldReference = newValue;
+
+                var memberExpression = property.Body as MemberExpression;
+                OnPropertyChanged(memberExpression.Member.Name);
+            }
+            return valueIsDifferent;
         }
 
-        public void AddAndNotify(T element)
+        protected void OnPropertyChanged(string propertyName)
         {
-            Add(element);
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
-        }
-
-        public void RemoveAndNotify(T element)
-        {
-            Remove(element);
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove));
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }
