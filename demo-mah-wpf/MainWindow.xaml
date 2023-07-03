@@ -14,7 +14,7 @@
                     WindowStyle="None"
                     WindowState="Maximized"
                     WindowStartupLocation="CenterScreen"
-                    mc:Ignorable="d" Topmost="True"
+                    mc:Ignorable="d" Topmost="False"
                  
     ShowTitleBar="True"
 
@@ -65,6 +65,10 @@
 
         <local:NameList x:Key="NameListData"/>
         
+        <local:TaskList x:Key="MyTodoList"/>
+        <!--<local:TaskViewModel x:Key="MyTodoList"/>-->
+        <local:TaskListDataTemplateSelector x:Key="MyDataTemplateSelector"/>
+
         <DataTemplate x:Key="ImportantTaskTemplate">
             <DataTemplate.Resources>
                 <Style TargetType="TextBlock">
@@ -103,16 +107,16 @@
                 </Grid>
             </Border>
 
-        </DataTemplate>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=TaskType}">
+                    <DataTrigger.Value>
+                        <local:TaskType>Home</local:TaskType>
+                    </DataTrigger.Value>
+                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
 
-        <DataTemplate x:Key="myTaskTemplate">
-            <StackPanel>
-                <TextBlock Text="{Binding Path=TaskName}" />
-                <TextBlock Text="{Binding Path=Description}"/>
-                <TextBlock Text="{Binding Path=Priority}"/>
-            </StackPanel>
         </DataTemplate>
-
 
         <DataTemplate x:Key="NameItemTemplate">
             <StackPanel>
@@ -134,7 +138,7 @@
         <Border Grid.Column="0" Grid.Row="0" BorderBrush="Yellow" Margin="1" BorderThickness="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <Border Grid.Column="0" Grid.Row="1" BorderBrush="Gray" Margin="1" BorderThickness="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-        <StackPanel Margin="10" Grid.Row="0" Grid.Column="0">
+        <StackPanel Margin="10" Grid.Row="0" Grid.Column="0" Orientation="Vertical">
             <TextBlock Text="{StaticResource strHelloWorld}" FontSize="56" />
             <TextBlock>Just another "<TextBlock Text="{StaticResource strHelloWorld}" />" example, but with resources!</TextBlock>
         </StackPanel>
@@ -150,84 +154,99 @@
                 <sys:String x:Key="strPanel">Hello, Panel world!</sys:String>
             </DockPanel.Resources>
 
+            <StackPanel>
+                <TextBlock FontSize="20" Text="My Task List:"/>
+                <ListBox Width="400" Margin="10"
+             ItemsSource="{Binding Source={StaticResource MyTodoList}}"
+             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
+             HorizontalContentAlignment="Stretch" 
+             IsSynchronizedWithCurrentItem="True"/>
+                <TextBlock FontSize="20" Text="Information:"/>
+                <ContentControl Content="{Binding Source={StaticResource MyTodoList}}"
+                    ContentTemplate="{StaticResource MyTaskTemplate}"/>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Top" Margin="10">
+                <ListBox HorizontalContentAlignment="Stretch"
+                     ItemsSource="{Binding Source={StaticResource NameListData}}"  
+                     ItemTemplate="{StaticResource NameItemTemplate}"
+                     IsSynchronizedWithCurrentItem="True"/>
+            </StackPanel>
             <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="10">
-                <Button Name="btnClickMe" Click="btnClickMe_Click">Click me!</Button>
+                <StackPanel Orientation="Vertical">
+                    <Button Name="btnClickMe" Click="btnClickMe_Click">Click me!</Button>
+                    <ListBox Name="lbResult" />
+                </StackPanel>
             </WrapPanel>
 
-            <ListBox Name="lbResult" />
+            <DockPanel>
+                <StackPanel Orientation="Vertical">
+                <DataGrid ItemsSource="{Binding Source=NameList}"  AutoGenerateColumns="False" Height="80">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+                <!-- 
+                  Table is a Block element, and as such must be hosted in a container
+                  for Block elements.  FlowDocument provides such a container. 
+                -->
+                <FlowDocumentReader>
+                    <FlowDocument>
+                        <Table>
+                            <!-- 
+                              This table has 3 columns, each described by a TableColumn 
+                              element nested in a Table.Columns collection element. 
+                            -->
+                            <Table.Columns>
+                                <TableColumn />
+                                <TableColumn />
+                                <TableColumn />
+                            </Table.Columns>
+                            <!-- 
+                              This table includes a single TableRowGroup which hosts 2 rows,
+                              each described by a TableRow element.
+                            -->
+                            <TableRowGroup>
+                                <!--
+                                    Each of the 2 TableRow elements hosts 3 cells, described by
+                                    TableCell elements.
+                                  -->
+                                <TableRow>
+                                    <TableCell>
+                                        <!-- 
+                                            TableCell elements may only host elements derived from Block.
+                                            In this example, Paragaph elements serve as the ultimate content
+                                            containers for the cells in this table.
+                                          -->
+                                        <Paragraph>Cell at Row 1 Column 1</Paragraph>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Paragraph>Cell at Row 1 Column 2</Paragraph>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Paragraph>Cell at Row 1 Column 3</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        <Paragraph>Cell at Row 2 Column 1</Paragraph>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Paragraph>Cell at Row 2 Column 2</Paragraph>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Paragraph>Cell at Row 2 Column 3</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                            </TableRowGroup>
+                        </Table>
+                    </FlowDocument>
+                </FlowDocumentReader>
 
-
-            <DataGrid ItemsSource="{Binding Source=NameList}"  AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-
-            <!-- 
-  Table is a Block element, and as such must be hosted in a container
-  for Block elements.  FlowDocument provides such a container. 
--->
-            <FlowDocumentReader>
-                <FlowDocument>
-                    <Table>
-                        <!-- 
-      This table has 3 columns, each described by a TableColumn 
-      element nested in a Table.Columns collection element. 
-    -->
-                        <Table.Columns>
-                            <TableColumn />
-                            <TableColumn />
-                            <TableColumn />
-                        </Table.Columns>
-                        <!-- 
-      This table includes a single TableRowGroup which hosts 2 rows,
-      each described by a TableRow element.
-    -->
-                        <TableRowGroup>
-                            <!--
-        Each of the 2 TableRow elements hosts 3 cells, described by
-        TableCell elements.
-      -->
-                            <TableRow>
-                                <TableCell>
-                                    <!-- 
-            TableCell elements may only host elements derived from Block.
-            In this example, Paragaph elements serve as the ultimate content
-            containers for the cells in this table.
-          -->
-                                    <Paragraph>Cell at Row 1 Column 1</Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph>Cell at Row 1 Column 2</Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph>Cell at Row 1 Column 3</Paragraph>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <Paragraph>Cell at Row 2 Column 1</Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph>Cell at Row 2 Column 2</Paragraph>
-                                </TableCell>
-                                <TableCell>
-                                    <Paragraph>Cell at Row 2 Column 3</Paragraph>
-                                </TableCell>
-                            </TableRow>
-                        </TableRowGroup>
-                    </Table>
-                </FlowDocument>
-            </FlowDocumentReader>
-
-            <ListBox
-             ItemsSource="{Binding Source={StaticResource NameListData}}"  
-             ItemTemplate="{StaticResource NameItemTemplate}"
-             IsSynchronizedWithCurrentItem="True"/>
+                </StackPanel>
             </DockPanel>
+        </DockPanel>
     </Grid>
-
-
 </mah:MetroWindow>

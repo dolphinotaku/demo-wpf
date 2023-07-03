@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace demo_mah_wpf
 {
@@ -28,7 +30,29 @@ namespace demo_mah_wpf
 
             Components.Add(new Object());
             Components.Add(new Object());
+
+            //// The Work to perform on another thread 
+            //ThreadStart start = delegate () {
+            //    // ... 
+            //    // This will work as its using the dispatcher 
+            //    DispatcherOperation op = Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+            //      new Action<string>(SetStatus), "From Other Thread (Async)");
+            //    DispatcherOperationStatus status = op.Status;
+            //    while (status != DispatcherOperationStatus.Completed)
+            //    {
+            //        status = op.Wait(TimeSpan.FromMilliseconds(1000));
+            //        if (status == DispatcherOperationStatus.Aborted)
+            //        {
+            //            // Alert Someone 
+            //        }
+            //    }
+            //};
+            //// Create the thread and kick it started! 
+            //new Thread(start).Start();
+
+            this.DataContext = new TaskViewModel();
         }
+
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
             // Launch the GitHub site...
