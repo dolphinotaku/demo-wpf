@@ -50,7 +50,7 @@ namespace demo_mah_wpf
             //// Create the thread and kick it started! 
             //new Thread(start).Start();
 
-            this.DataContext = new TaskViewModel();
+            this.DataContext = new ViewModel();
         }
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
@@ -75,12 +75,15 @@ namespace demo_mah_wpf
             }
         }
 
-        private void btnClickMe_Click(object sender, RoutedEventArgs e)
-        {
-            lbResult.Items.Add(pnlMain.FindResource("strPanel").ToString());
-            lbResult.Items.Add(this.FindResource("strWindow").ToString());
-            lbResult.Items.Add(Application.Current.FindResource("strApp").ToString());
-        }
+        //private void btnClickMe_Click(object sender, RoutedEventArgs e)
+        //{
+        //    // use panel resource
+        //    lbResult.Items.Add(pnlMain.FindResource("strPanel").ToString());
+        //    // use windows resource
+        //    lbResult.Items.Add(this.FindResource("strWindow").ToString());
+        //    // use app resource
+        //    lbResult.Items.Add(Application.Current.FindResource("strApp").ToString());
+        //}
     }
 
 }
