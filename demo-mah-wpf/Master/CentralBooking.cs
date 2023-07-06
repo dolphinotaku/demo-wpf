@@ -11,6 +11,8 @@ namespace demo_mah_wpf
     {
         private string _description;
         private string _name;
+        private string _ticketNum;
+        private string _roomNum;
         private int _priority;
         private TaskType _type;
 
@@ -18,30 +20,30 @@ namespace demo_mah_wpf
         {
         }
 
-        public CentralBooking(string name, string description, int priority, TaskType type)
+        public CentralBooking(string ticketNum, string roomNum, int priority, TaskType type)
         {
-            _name = name;
-            _description = description;
+            _ticketNum = ticketNum;
+            _roomNum = roomNum;
             _priority = priority;
             _type = type;
         }
 
-        public string TaskName
+        public string TicketNum
         {
-            get { return _name; }
+            get { return _ticketNum; }
             set
             {
-                _name = value;
+                _ticketNum = value;
                 OnPropertyChanged("TaskName");
             }
         }
 
-        public string Description
+        public string RoomNum
         {
-            get { return _description; }
+            get { return _roomNum; }
             set
             {
-                _description = value;
+                _roomNum = value;
                 OnPropertyChanged("Description");
             }
         }

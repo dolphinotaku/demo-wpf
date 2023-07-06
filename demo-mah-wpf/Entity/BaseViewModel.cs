@@ -36,5 +36,15 @@ namespace demo_mah_wpf.Entity
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        private static readonly Random random = new Random();
+        private static readonly object syncLock = new object();
+        public int GetRandomInt(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize
+                return random.Next(min, max);
+            }
+        }
     }
 }

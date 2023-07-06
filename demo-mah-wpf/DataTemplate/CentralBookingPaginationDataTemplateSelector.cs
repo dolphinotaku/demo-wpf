@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace demo_mah_wpf
 {
-    public class TaskListDataTemplateSelector : DataTemplateSelector
+    public class CentralBookingPaginationDataTemplateSelector : DataTemplateSelector
     {
         public override DataTemplate
             SelectTemplate(object item, DependencyObject container)

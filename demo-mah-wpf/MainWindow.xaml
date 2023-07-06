@@ -55,6 +55,10 @@
     </mah:MetroWindow.RightWindowCommands>
 
     <Window.Resources>
+        <Style TargetType="{x:Type Control}" x:Key="centralBookingStyle">
+            <Setter Property="FontSize" Value="100" />
+        </Style>
+        
         <sys:String x:Key="strHelloWorld">Hello, world!</sys:String>
         <sys:String x:Key="strWindow">Hello, Window world!</sys:String>
         <x:Array x:Key="ComboBoxItems" Type="sys:String">
@@ -67,7 +71,7 @@
         
         <!--<local:TaskList x:Key="MyTodoList"/>-->
         <!--<local:ViewModel x:Key="MyTodoList"/>-->
-        <local:TaskListDataTemplateSelector x:Key="MyDataTemplateSelector"/>
+        <local:CentralBookingPaginationDataTemplateSelector x:Key="MyDataTemplateSelector"/>
 
         <local:ViewModel x:Key="MyTodoList"/>
 
@@ -77,34 +81,34 @@
                     <Setter Property="FontSize" Value="20"/>
                 </Style>
             </DataTemplate.Resources>
-            <Border Name="border" BorderBrush="Red" BorderThickness="1"
+            <Border Name="border" BorderBrush="Red" BorderThickness="1" Background="Transparent"
               Padding="5" Margin="5">
                 <DockPanel HorizontalAlignment="Center">
-                    <TextBlock Text="{Binding Path=Description}" />
+                    <TextBlock Text="{Binding Path=TicketNum}" />
                     <TextBlock>!</TextBlock>
                 </DockPanel>
             </Border>
         </DataTemplate>
 
         <DataTemplate x:Key="MyTaskTemplate">
-            <Border Name="border" BorderBrush="Aqua" BorderThickness="1"
+            <Border Name="border" Background="Transparent" BorderThickness="1"
               Padding="5" Margin="5">
-                <Grid>
+                <Grid Background="Transparent">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Booking Name:"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=TaskName}" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Description:"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Description}"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Priority:"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Priority}"/>
+                    <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="Booking Name:"/>-->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=TicketNum}" />
+                    <mah:FontIcon Grid.Row="0" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Glyph="&#xF0AF;" />
+                    <!--<TextBlock Grid.Row="1" Grid.Column="0" Text="Description:"/>-->
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=RoomNum}"/>
+                    <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="Priority:"/>-->
+                    <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Priority}"/>-->
                 </Grid>
             </Border>
 
@@ -113,7 +117,7 @@
                     <DataTrigger.Value>
                         <local:TaskType>Home</local:TaskType>
                     </DataTrigger.Value>
-                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow"/>
+                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow" />
                 </DataTrigger>
             </DataTemplate.Triggers>
 
@@ -148,7 +152,7 @@
                 
                 <StackPanel Margin="10" Grid.Row="1" Grid.Column="0" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
                     <!--<ScrollViewer>
-                    <ListBox ItemsSource="{Binding TaskViewModel.CentralBookingPagination}"
+                    <ListBox ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination}"
                              ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
                              HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
                     </ListBox>
@@ -162,10 +166,19 @@
                             <ColumnDefinition Width="2*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
+                        
+                        <Rectangle Grid.Column="0" Grid.RowSpan="1000">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Gray" Offset="0" />
+                                    <GradientStop Color="Gray" Offset="1" />
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
 
                         <!--<UniformGrid Grid.Row="0" Grid.Column="1">
                             <ListBox DockPanel.Dock="Left"
-                            ItemsSource="{Binding TaskViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}"
+                            ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}"
                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
                             VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
                          
@@ -175,8 +188,8 @@
                             </ListBox>
                         </UniformGrid>-->
 
-                        <DockPanel Grid.Row="0" Grid.Column="0">
-                            <ItemsControl ItemsSource="{Binding TaskViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}">
+                        <DockPanel Grid.Row="0" Grid.Column="0" Background="Transparent">
+                            <ItemsControl ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}" Background="Transparent">
                                 <!--The ItemsControl has no default visual appearance.
                                       Use the Template property to specify a ControlTemplate to define
                                       the appearance of an ItemsControl. The ItemsPresenter uses the specified
@@ -185,8 +198,8 @@
                                       the default is an ItemsPanelTemplate that specifies a StackPanel.-->
                                 <ItemsControl.Template>
                                     <ControlTemplate TargetType="ItemsControl">
-                                        <Border BorderBrush="Aqua" BorderThickness="1" CornerRadius="15">
-                                            <ItemsPresenter/>
+                                        <Border BorderBrush="Black" BorderThickness="3" Background="Transparent">
+                                            <ItemsPresenter />
                                         </Border>
                                     </ControlTemplate>
                                 </ItemsControl.Template>
@@ -197,7 +210,7 @@
                                   how the items are laid out.-->
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <UniformGrid></UniformGrid>
+                                        <UniformGrid ></UniformGrid>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
 
@@ -207,20 +220,21 @@
                                   and TaskName on top of a silver ellipse.-->
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <ListBox 
+                                        <ListView Background="Transparent"
                                             VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
                                             ScrollViewer.VerticalScrollBarVisibility="Visible"
                                             ScrollViewer.CanContentScroll="False">
-                                            <!--<TextBlock Text="{Binding Key}" />-->
-                                            <!--<TextBlock Text="{Binding Value}" />-->
-                                            <ListBox ItemsSource="{Binding Value}"
-                                                     ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
+                                            <!--<TextBlock Text="{Binding Key}" />
+                                            <TextBlock Text="{Binding Value}" />-->
+
+                                            <ListView Background="Transparent"
+                                                ItemsSource="{Binding Value}"
+                                            ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
                                             VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
                                             ScrollViewer.VerticalScrollBarVisibility="Visible"
                                             ScrollViewer.CanContentScroll="False">
-                                                <!--<TextBlock Text="{Binding TaskName}" />-->
-                                            </ListBox>
-                                        </ListBox>
+                                            </ListView>
+                                        </ListView>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

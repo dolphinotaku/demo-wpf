@@ -14,8 +14,8 @@ namespace demo_mah_wpf
 {
     public class ViewModel
     {
-        private TaskViewModel _TaskList;
-        public TaskViewModel TaskViewModel
+        private CentralBookingViewModel _TaskList;
+        public CentralBookingViewModel CentralBookingViewModel
         {
             get { return _TaskList; }
             set
@@ -28,7 +28,7 @@ namespace demo_mah_wpf
         {
             //BindingOperations.EnableCollectionSynchronization(TaskCollection1, _lock);
 
-            this.TaskViewModel = new TaskViewModel();
+            this.CentralBookingViewModel = new CentralBookingViewModel();
 
             // use async in .net framework 4.7.2
             // otherwise, complie error: async streams is not available in 7.3

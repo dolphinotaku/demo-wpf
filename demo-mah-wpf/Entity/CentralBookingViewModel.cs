@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace demo_mah_wpf
 {
-    public class TaskViewModel : FetchDataViewModel
+    public class CentralBookingViewModel : FetchDataViewModel
     {
         //private LinkedList<CentralBooking> _tupleList;
         //private ObservableCollection<CentralBooking> column1BookList;
@@ -38,7 +38,7 @@ namespace demo_mah_wpf
 
         //}
 
-        public TaskViewModel() : base()
+        public CentralBookingViewModel() : base()
         {
             this.taskQueryList = new List<CentralBooking>();
             this.CentralBookingPagination = new ObservableCollection<CentralBookingPagination>();
@@ -91,9 +91,13 @@ namespace demo_mah_wpf
         public Task<List<CentralBooking>> GetAllData()
         {
             List<CentralBooking> _taskList = new List<CentralBooking>();
+            Char[] ticketType = new Char[]{ 'S', 'C' };
             for(int i = 1; i <= 12; i++)
             {
-                _taskList.Add(new CentralBooking(string.Format("Development {0}", i), string.Format("Write a WPF program {0}", DateTime.Now.ToString()), 2, TaskType.Home));
+                _taskList.Add(new CentralBooking(
+                    string.Format("{0} {1}",
+                        ticketType[this.GetRandomInt(0, ticketType.Length)], i),
+                    this.GetRandomInt(1, 30).ToString(), 2, TaskType.Home));
             }
 
             return Task.FromResult<List<CentralBooking>>(_taskList);
