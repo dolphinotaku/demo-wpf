@@ -11,6 +11,15 @@ namespace demo_mah_wpf
 {
     public class TaskViewModel : FetchDataViewModel
     {
+        //private LinkedList<CentralBooking> _tupleList;
+        //private ObservableCollection<CentralBooking> column1BookList;
+        //private ObservableCollection<CentralBooking> column2BookList;
+        //private int _currentPage;
+        //private int _totalPage;
+        //private int _defaultPageRowCount;
+        protected CentralBooking firstDisplayBookingNode;
+        protected CentralBooking lastDisplayBookingNode;
+
         private ObservableCollection<CentralBookingPagination> _TaskCollection1;
         public ObservableCollection<CentralBookingPagination> CentralBookingPagination
         {

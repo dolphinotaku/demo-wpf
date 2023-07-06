@@ -27,6 +27,8 @@ namespace demo_mah_wpf.Entity
             this._centralBookingColumnDisplay = new Dictionary<int, List<CentralBooking>>();
             this.firstDisplayBookingNode = new CentralBooking();
             this.lastDisplayBookingNode = new CentralBooking();
+
+
         }
         public int CurrentPage
         {
@@ -108,9 +110,12 @@ namespace demo_mah_wpf.Entity
 
         public void RefreshDisplayColumn()
         {
-            this.CentralBookingColumnDisplay.Clear();
+            //this.CentralBookingColumnDisplay.Clear();
             List<CentralBooking> column1BookList = new List<CentralBooking>();
             List<CentralBooking> column2BookList = new List<CentralBooking>();
+
+            if (this.CentralBookingColumnDisplay.ContainsKey(1)) column1BookList = this.CentralBookingColumnDisplay[1];
+            if (this.CentralBookingColumnDisplay.ContainsKey(2)) column2BookList = this.CentralBookingColumnDisplay[2];
 
             // if queryList is empty
             // add empty to the list, to expand the block on the layout
@@ -126,7 +131,9 @@ namespace demo_mah_wpf.Entity
             }
             else
             {
-                
+                column1BookList.Clear();
+                column2BookList.Clear();
+
                 for (int i = 0; i < this.DefaultPageRowCount * 2; i++)
                 {
                     LinkedListNode<CentralBooking> linkedListNode = this.TupleList.Find(this.lastDisplayBookingNode);
@@ -154,8 +161,11 @@ namespace demo_mah_wpf.Entity
                 }
             }
 
-            this.CentralBookingColumnDisplay.Add(1, column1BookList);
-            this.CentralBookingColumnDisplay.Add(2, column2BookList);
+            //this.CentralBookingColumnDisplay.Add(1, column1BookList);
+            //this.CentralBookingColumnDisplay.Add(2, column2BookList);
+
+            this.CentralBookingColumnDisplay[1] = column1BookList;
+            this.CentralBookingColumnDisplay[2] = column2BookList;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

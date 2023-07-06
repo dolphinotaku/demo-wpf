@@ -163,7 +163,7 @@
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <UniformGrid Grid.Row="0" Grid.Column="1">
+                        <!--<UniformGrid Grid.Row="0" Grid.Column="1">
                             <ListBox DockPanel.Dock="Left"
                             ItemsSource="{Binding TaskViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}"
                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
@@ -173,7 +173,7 @@
                             ScrollViewer.CanContentScroll="False">
                                 <TextBlock Text="{Binding Value.TaskName}" />
                             </ListBox>
-                        </UniformGrid>
+                        </UniformGrid>-->
 
                         <DockPanel Grid.Row="0" Grid.Column="0">
                             <ItemsControl ItemsSource="{Binding TaskViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}">
@@ -208,11 +208,18 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <ListBox 
-                                            ItemsSource="{Binding Value}"
                                             VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
                                             ScrollViewer.VerticalScrollBarVisibility="Visible"
                                             ScrollViewer.CanContentScroll="False">
-                                            <TextBlock Text="{Binding Value.TaskName}" />
+                                            <!--<TextBlock Text="{Binding Key}" />-->
+                                            <!--<TextBlock Text="{Binding Value}" />-->
+                                            <ListBox ItemsSource="{Binding Value}"
+                                                     ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
+                                            VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
+                                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                            ScrollViewer.CanContentScroll="False">
+                                                <!--<TextBlock Text="{Binding TaskName}" />-->
+                                            </ListBox>
                                         </ListBox>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

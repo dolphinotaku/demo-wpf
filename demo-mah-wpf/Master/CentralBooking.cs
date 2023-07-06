@@ -68,7 +68,7 @@ namespace demo_mah_wpf
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public override string ToString() => _name;
+        public override string ToString() => _name + ": " + _description;
 
         protected void OnPropertyChanged(string info)
         {
