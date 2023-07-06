@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows.Data;
 using System.ComponentModel;
@@ -27,7 +26,7 @@ namespace demo_mah_wpf
 
         public ViewModel() : base()
         {
-            //BindingOperations.EnableCollectionSynchronization(TaskCollection, _lock);
+            //BindingOperations.EnableCollectionSynchronization(TaskCollection1, _lock);
 
             this.TaskViewModel = new TaskViewModel();
 
@@ -35,7 +34,7 @@ namespace demo_mah_wpf
             // otherwise, complie error: async streams is not available in 7.3
             // https://bartwullems.blogspot.com/2020/01/asynchronous-streams-using.html
 
-            //System.Threading.Tasks.Task.Run(async () => {
+            //Task.Run(async () => {
             //    var getTaskResult = this.GetAllTasks();
             //});
         }

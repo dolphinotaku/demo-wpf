@@ -11,75 +11,92 @@ namespace demo_mah_wpf
 {
     public class TaskViewModel : FetchDataViewModel
     {
-        private ObservableCollection<Task> _Tasks;
-        public ObservableCollection<Task> TaskCollection
+        private ObservableCollection<CentralBookingPagination> _TaskCollection1;
+        public ObservableCollection<CentralBookingPagination> CentralBookingPagination
         {
-            get { return _Tasks; }
+            get { return _TaskCollection1; }
             set
             {
-                _Tasks = value;
-                this.SetProperty(ref _Tasks, value, () => TaskCollection);
+                _TaskCollection1 = value;
+                this.SetProperty(ref _TaskCollection1, value, () => CentralBookingPagination);
             }
         }
+
+        public IEnumerable<CentralBooking> taskQueryList;
+
+        //public ReadOnlyObservableCollection<CentralBooking> GetPage()
+        //{
+
+        //}
 
         public TaskViewModel() : base()
         {
-            this.TaskCollection = new ObservableCollection<Task>();
+            this.taskQueryList = new List<CentralBooking>();
+            this.CentralBookingPagination = new ObservableCollection<CentralBookingPagination>();
+            //this.TaskCollectionPagination = new ObservableCollection<CentralBooking>();
 
-            //this.TaskCollection.Add(new Task("Laundry", "Do my Laundry", 2, TaskType.Home));
-            //this.TaskCollection.Add(new Task("Email", "Email clients", 1, TaskType.Work));
-            //this.TaskCollection.Add(new Task("Clean", "Clean my office", 3, TaskType.Work));
-            //this.TaskCollection.Add(new Task("Dinner", "Get ready for family reunion", 1, TaskType.Home));
-            //this.TaskCollection.Add(new Task("Proposals", "Review new budget proposals", 2, TaskType.Work));
+            //this.CentralBookingPagination.Add(new CentralBooking("Laundry", "Do my Laundry", 2, TaskType.Home));
+            //this.CentralBookingPagination.Add(new CentralBooking("Email", "Email clients", 1, TaskType.Work));
+            //this.CentralBookingPagination.Add(new CentralBooking("Clean", "Clean my office", 3, TaskType.Work));
+            //this.CentralBookingPagination.Add(new CentralBooking("Dinner", "Get ready for family reunion", 1, TaskType.Home));
+            //this.CentralBookingPagination.Add(new CentralBooking("Proposals", "Review new budget proposals", 2, TaskType.Work));
 
-            // create 12 empty object
-            IEnumerable<Task> _taskDataResult = (IEnumerable<Task>)this.CreateEmptyData(12);
-            List<Task> _taskList = _taskDataResult.ToList();
-            for (int i = 0; i < _taskList.Count; i++)
-            {
-                this.TaskCollection.Add(_taskList[i]);
-            }
+            // create two column
+            //for (int i = 0; i < 1; i++)
+            //{
+                CentralBookingPagination _bookingPage = new CentralBookingPagination();
+
+                // add empty 6 rows
+                IEnumerable<CentralBooking> _taskDataResult = (IEnumerable<CentralBooking>)this.CreateEmptyData(6);
+                List<CentralBooking> _taskList = _taskDataResult.ToList();
+                _bookingPage.AddBookingRange(_taskList);
+                this.CentralBookingPagination.Add(_bookingPage);
+            //}
         }
 
-        public override async void CustomTimerTick(object sender, EventArgs args)
+        public override async void CustomDataTimerTick(object sender, EventArgs args)
         {
-            if (this.currentSecond % this.defaultRefreshDataInSecond != 0) return;
+            if (this.currentSecond % this.RefaultRefreshDataInEverySecond != 0) return;
 
-            //this.TaskCollection.Clear();
-            IEnumerable<Task> _taskDataResult = (IEnumerable<Task>)await this.GetAllData();
-            List<Task> _taskList = _taskDataResult.ToList();
-            if (_taskList != null && _taskList.Count > 0)
+            //this.CentralBookingPagination.Clear();
+            IEnumerable<CentralBooking> _taskDataResult = (IEnumerable<CentralBooking>)await this.GetAllData();
+            List<CentralBooking> _bookingList = _taskDataResult.ToList();
+            if (_bookingList != null && _bookingList.Count > 0)
             {
-                for (int i = 0; i < _taskList.Count; i++)
-                {
-                    //this.TaskCollection.Add(new Task(string.Format("Development {0}", i), string.Format("Write a WPF program {0}", DateTime.Now.ToString()), 2, TaskType.Home));
-                    var _task = _taskList[i];
-                    this.TaskCollection[i].TaskName = _task.TaskName;
-                    this.TaskCollection[i].Description = _task.Description;
-                    this.TaskCollection[i].Priority = _task.Priority;
-                    this.TaskCollection[i].TaskType = _task.TaskType;
-                }
+                this.CentralBookingPagination[0].ClearBookingList();
+                this.CentralBookingPagination[0].AddBookingRange(_bookingList);
+                //for (int i = 0; i < _bookingList.Count; i++)
+                //{
+                //this.CentralBookingPagination.Add(new CentralBooking(string.Format("Development {0}", i), string.Format("Write a WPF program {0}", DateTime.Now.ToString()), 2, TaskType.Home));
+                //var _task = _bookingList[i];
+                //this.CentralBookingPagination[i].TaskName = _task.TaskName;
+                //this.CentralBookingPagination[i].Description = _task.Description;
+                //this.CentralBookingPagination[i].Priority = _task.Priority;
+                //this.CentralBookingPagination[i].TaskType = _task.TaskType;
+                //}
             }
+            await Task.Delay(0);
+            return;
         }
 
-        public System.Threading.Tasks.Task<List<Task>> GetAllData()
+        public Task<List<CentralBooking>> GetAllData()
         {
-            List<Task> _taskList = new List<Task>();
+            List<CentralBooking> _taskList = new List<CentralBooking>();
             for(int i = 1; i <= 12; i++)
             {
-                _taskList.Add(new Task(string.Format("Development {0}", i), string.Format("Write a WPF program {0}", DateTime.Now.ToString()), 2, TaskType.Home));
+                _taskList.Add(new CentralBooking(string.Format("Development {0}", i), string.Format("Write a WPF program {0}", DateTime.Now.ToString()), 2, TaskType.Home));
             }
 
-            return System.Threading.Tasks.Task.FromResult<List<Task>>(_taskList);
+            return Task.FromResult<List<CentralBooking>>(_taskList);
         }
 
 
-        public List<Task> CreateEmptyData(int rowsCount = 12)
+        public List<CentralBooking> CreateEmptyData(int rowsCount = 12)
         {
-            List<Task> _taskList = new List<Task>();
+            List<CentralBooking> _taskList = new List<CentralBooking>();
             for (int i = 1; i <= 12; i++)
             {
-                _taskList.Add(new Task(string.Format("Empty {0}", i), string.Format("Description {0}", DateTime.Now.ToString()), 2, TaskType.Home));
+                _taskList.Add(new CentralBooking(string.Format("Empty {0}", i), string.Format("Description {0}", DateTime.Now.ToString()), 2, TaskType.Home));
             }
 
             return _taskList;

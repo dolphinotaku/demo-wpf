@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace demo_mah_wpf
 {
-    public class Task : INotifyPropertyChanged
+    public class CentralBooking : INotifyPropertyChanged
     {
         private string _description;
         private string _name;
         private int _priority;
         private TaskType _type;
 
-        public Task()
+        public CentralBooking()
         {
         }
 
-        public Task(string name, string description, int priority, TaskType type)
+        public CentralBooking(string name, string description, int priority, TaskType type)
         {
             _name = name;
             _description = description;

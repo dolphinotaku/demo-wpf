@@ -13,9 +13,9 @@ namespace demo_mah_wpf
         public override DataTemplate
             SelectTemplate(object item, DependencyObject container)
         {
-            if (item != null && item is Task)
+            if (item != null && item is CentralBooking)
             {
-                var taskitem = (Task)item;
+                var taskitem = (CentralBooking)item;
                 var window = Application.Current.MainWindow;
                 if (taskitem.Priority == 1)
                     return

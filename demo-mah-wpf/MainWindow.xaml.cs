@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using demo_mah_wpf.Entity;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

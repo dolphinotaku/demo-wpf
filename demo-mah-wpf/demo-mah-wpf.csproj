@@ -213,8 +213,9 @@
     <Compile Include="Entity\BaseViewModel.cs" />
     <Compile Include="Entity\FetchDataViewModel.cs" />
     <Compile Include="Entity\NameList.cs" />
+    <Compile Include="Entity\CentralBookingPagination.cs" />
     <Compile Include="Master\PersonObject.cs" />
-    <Compile Include="Master\Task.cs" />
+    <Compile Include="Master\CentralBooking.cs" />
     <Compile Include="DataTemplate\TaskListDataTemplateSelector.cs" />
     <Compile Include="Entity\TaskViewModel.cs" />
     <Compile Include="Master\TaskType.cs" />

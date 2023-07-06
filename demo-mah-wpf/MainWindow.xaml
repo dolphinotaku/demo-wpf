@@ -5,7 +5,7 @@
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                     xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:local="clr-namespace:demo_mah_wpf" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:demo_mah_wpf" xmlns:sys="clr-namespace:System;assembly=mscorlib" 
                  Title="MainWindow"
                     Width="800"
                     Height="450"
@@ -45,8 +45,8 @@
                                         VerticalAlignment="Center"
                                         Kind="FoodCupcake" />
                             <TextBlock Margin="4 0 0 0"
-                         VerticalAlignment="Center"
-                         Text="{Binding}" />
+                                VerticalAlignment="Center"
+                                Text="{Binding}" />
                         </StackPanel>
                     </DataTemplate>
                 </Button.ContentTemplate>
@@ -99,7 +99,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Task Name:"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Booking Name:"/>
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=TaskName}" />
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Description:"/>
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Description}"/>
@@ -129,64 +129,134 @@
         </DataTemplate>
     </Window.Resources>
 
-    <Grid>
-        <!--  Your content  -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="6*"></RowDefinition>
-            <RowDefinition Height="6*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Border Grid.Column="0" Grid.Row="0" BorderBrush="Yellow" Margin="1" BorderThickness="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <Border Grid.Column="0" Grid.Row="1" BorderBrush="Gray" Margin="1" BorderThickness="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    <!-- Grid not support scrolling functionality, embed Grid into StackPanel -->
+    <DockPanel Width="auto" Height="auto" Margin="0">
+        <ScrollViewer HorizontalScrollBarVisibility="Visible">
+            <Grid>
+                <!--  Your content  -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="6*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0" Grid.Row="0" BorderBrush="Yellow" Margin="1" BorderThickness="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Border Grid.Column="0" Grid.Row="1" BorderBrush="Gray" Margin="1" BorderThickness="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-        <StackPanel Margin="10" Grid.Row="0" Grid.Column="0" Orientation="Vertical">
-            <TextBlock Text="{StaticResource strHelloWorld}" FontSize="56" />
-            <TextBlock>Just another "<TextBlock Text="{StaticResource strHelloWorld}" />" example, but with resources!</TextBlock>
-        </StackPanel>
-        <StackPanel Margin="10" Grid.Row="1" Grid.Column="0">
-            <StackPanel.Resources>
-                <sys:String x:Key="ComboBoxTitle">Items:</sys:String>
-            </StackPanel.Resources>
-            <ScrollViewer Height="200">
-                <ListBox ItemsSource="{Binding TaskViewModel.TaskCollection}"
-                         ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
-                         HorizontalContentAlignment="Stretch" >
-                </ListBox>
-            </ScrollViewer>
-        </StackPanel>
-
-        <!--<DockPanel Margin="10" Name="pnlMain" Grid.Row="2" Grid.Column="0">
-            <DockPanel.Resources>
-                <sys:String x:Key="strPanel">Hello, Panel world!</sys:String>
-            </DockPanel.Resources>
-
-            <StackPanel DockPanel.Dock="Top" Margin="10">
-            </StackPanel>
-
-            --><!--<StackPanel DockPanel.Dock="Top" Margin="10">
-                <ListBox HorizontalContentAlignment="Stretch"
-                     ItemsSource="{Binding Source={StaticResource NameListData}}"  
-                     ItemTemplate="{StaticResource NameItemTemplate}"
-                     IsSynchronizedWithCurrentItem="True"/>
-            </StackPanel>
-            <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="10">
-                <StackPanel Orientation="Vertical">
-                    <Button Name="btnClickMe" Click="btnClickMe_Click">Click me!</Button>
-                    <ListBox Name="lbResult" />
+                <StackPanel Margin="10" Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                    <TextBlock Text="{StaticResource strHelloWorld}" FontSize="56" />
+                    <TextBlock>Just another "<TextBlock Text="{StaticResource strHelloWorld}" />" example, but with resources!</TextBlock>
                 </StackPanel>
-            </WrapPanel>-->
+                
+                <StackPanel Margin="10" Grid.Row="1" Grid.Column="0" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <!--<ScrollViewer>
+                    <ListBox ItemsSource="{Binding TaskViewModel.CentralBookingPagination}"
+                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
+                             HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    </ListBox>
+                </ScrollViewer>-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"></RowDefinition>
+                            <RowDefinition Height="8*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
-            <!--<DockPanel>
-                <StackPanel Orientation="Vertical">
-                <DataGrid ItemsSource="{Binding Source=NameList}"  AutoGenerateColumns="False" Height="80">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                        <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                        <UniformGrid Grid.Row="0" Grid.Column="1">
+                            <ListBox DockPanel.Dock="Left"
+                            ItemsSource="{Binding TaskViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}"
+                            ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
+                            VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
+                         
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            ScrollViewer.CanContentScroll="False">
+                                <TextBlock Text="{Binding Value.TaskName}" />
+                            </ListBox>
+                        </UniformGrid>
 
+                        <DockPanel Grid.Row="0" Grid.Column="0">
+                            <ItemsControl ItemsSource="{Binding TaskViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}">
+                                <!--The ItemsControl has no default visual appearance.
+                                      Use the Template property to specify a ControlTemplate to define
+                                      the appearance of an ItemsControl. The ItemsPresenter uses the specified
+                                      ItemsPanelTemplate (see below) to layout the items. If an
+                                      ItemsPanelTemplate is not specified, the default is used. (For ItemsControl,
+                                      the default is an ItemsPanelTemplate that specifies a StackPanel.-->
+                                <ItemsControl.Template>
+                                    <ControlTemplate TargetType="ItemsControl">
+                                        <Border BorderBrush="Aqua" BorderThickness="1" CornerRadius="15">
+                                            <ItemsPresenter/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+                                
+                                <!--Use the ItemsPanel property to specify an ItemsPanelTemplate
+                                  that defines the panel that is used to hold the generated items.
+                                  In other words, use this property if you want to affect
+                                  how the items are laid out.-->
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid></UniformGrid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <!--Use the ItemTemplate to set a DataTemplate to define
+                                  the visualization of the data objects. This DataTemplate
+                                  specifies that each data object appears with the Priority
+                                  and TaskName on top of a silver ellipse.-->
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ListBox 
+                                            ItemsSource="{Binding Value}"
+                                            VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
+                                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                            ScrollViewer.CanContentScroll="False">
+                                            <TextBlock Text="{Binding Value.TaskName}" />
+                                        </ListBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DockPanel>
+                    </Grid>
                 </StackPanel>
-            </DockPanel>--><!--
-        </DockPanel>-->
-    </Grid>
+
+                <!--<DockPanel Margin="10" Name="pnlMain" Grid.Row="2" Grid.Column="0">
+                <DockPanel.Resources>
+                    <sys:String x:Key="strPanel">Hello, Panel world!</sys:String>
+                </DockPanel.Resources>
+
+                <StackPanel DockPanel.Dock="Top" Margin="10">
+                </StackPanel>
+
+                -->
+                <!--<StackPanel DockPanel.Dock="Top" Margin="10">
+                    <ListBox HorizontalContentAlignment="Stretch"
+                         ItemsSource="{Binding Source={StaticResource NameListData}}"  
+                         ItemTemplate="{StaticResource NameItemTemplate}"
+                         IsSynchronizedWithCurrentItem="True"/>
+                </StackPanel>
+                <WrapPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="10">
+                    <StackPanel Orientation="Vertical">
+                        <Button Name="btnClickMe" Click="btnClickMe_Click">Click me!</Button>
+                        <ListBox Name="lbResult" />
+                    </StackPanel>
+                </WrapPanel>-->
+
+                <!--<DockPanel>
+                    <StackPanel Orientation="Vertical">
+                    <DataGrid ItemsSource="{Binding Source=NameList}"  AutoGenerateColumns="False" Height="80">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    </StackPanel>
+                </DockPanel>-->
+                <!--
+            </DockPanel>-->
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
 </mah:MetroWindow>
