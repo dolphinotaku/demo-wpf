@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace demo_mah_wpf.Entity
         private int _totalPage;
         private int _defaultPageRowCount;
         private LinkedList<CentralBooking> _tupleList;
-        private Dictionary<int, List<CentralBooking>> _centralBookingColumnDisplay;
+        private ObservableConcurrentDictionary<int, List<CentralBooking>> _centralBookingColumnDisplay;
         protected CentralBooking firstDisplayBookingNode;
         protected CentralBooking lastDisplayBookingNode;
 
@@ -24,7 +25,7 @@ namespace demo_mah_wpf.Entity
             this._totalPage = -1;
             this._defaultPageRowCount = 6;
             this._tupleList = new LinkedList<CentralBooking>();
-            this._centralBookingColumnDisplay = new Dictionary<int, List<CentralBooking>>();
+            this._centralBookingColumnDisplay = new ObservableConcurrentDictionary<int, List<CentralBooking>>();
             this.firstDisplayBookingNode = new CentralBooking();
             this.lastDisplayBookingNode = new CentralBooking();
 
@@ -66,7 +67,7 @@ namespace demo_mah_wpf.Entity
                 OnPropertyChanged("TupleList");
             }
         }
-        public Dictionary<int, List<CentralBooking>> CentralBookingColumnDisplay
+        public ObservableConcurrentDictionary<int, List<CentralBooking>> CentralBookingColumnDisplay
         {
             get { return _centralBookingColumnDisplay; }
             set

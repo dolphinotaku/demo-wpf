@@ -11,17 +11,11 @@ namespace demo_mah_wpf
 {
     public class CentralBookingViewModel : FetchDataViewModel
     {
-        //private LinkedList<CentralBooking> _tupleList;
-        //private ObservableCollection<CentralBooking> column1BookList;
-        //private ObservableCollection<CentralBooking> column2BookList;
-        //private int _currentPage;
-        //private int _totalPage;
-        //private int _defaultPageRowCount;
         protected CentralBooking firstDisplayBookingNode;
         protected CentralBooking lastDisplayBookingNode;
 
-        private ObservableCollection<CentralBookingPagination> _TaskCollection1;
-        public ObservableCollection<CentralBookingPagination> CentralBookingPagination
+        private CentralBookingPagination _TaskCollection1;
+        public CentralBookingPagination CentralBookingPagination
         {
             get { return _TaskCollection1; }
             set
@@ -33,15 +27,11 @@ namespace demo_mah_wpf
 
         public IEnumerable<CentralBooking> taskQueryList;
 
-        //public ReadOnlyObservableCollection<CentralBooking> GetPage()
-        //{
-
-        //}
 
         public CentralBookingViewModel() : base()
         {
             this.taskQueryList = new List<CentralBooking>();
-            this.CentralBookingPagination = new ObservableCollection<CentralBookingPagination>();
+            this.CentralBookingPagination = new CentralBookingPagination();
             //this.TaskCollectionPagination = new ObservableCollection<CentralBooking>();
 
             //this.CentralBookingPagination.Add(new CentralBooking("Laundry", "Do my Laundry", 2, TaskType.Home));
@@ -51,16 +41,15 @@ namespace demo_mah_wpf
             //this.CentralBookingPagination.Add(new CentralBooking("Proposals", "Review new budget proposals", 2, TaskType.Work));
 
             // create two column
-            //for (int i = 0; i < 1; i++)
-            //{
-                CentralBookingPagination _bookingPage = new CentralBookingPagination();
+            CentralBookingPagination _bookingPage = new CentralBookingPagination();
 
-                // add empty 6 rows
-                IEnumerable<CentralBooking> _taskDataResult = (IEnumerable<CentralBooking>)this.CreateEmptyData(6);
-                List<CentralBooking> _taskList = _taskDataResult.ToList();
-                _bookingPage.AddBookingRange(_taskList);
-                this.CentralBookingPagination.Add(_bookingPage);
-            //}
+            // add empty 6 rows
+            IEnumerable<CentralBooking> _taskDataResult = (IEnumerable<CentralBooking>)this.CreateEmptyData(6);
+            List<CentralBooking> _taskList = _taskDataResult.ToList();
+            _bookingPage.AddBookingRange(_taskList);
+            this.CentralBookingPagination = _bookingPage;
+
+            this.taskQueryList = _taskList;
         }
 
         public override async void CustomDataTimerTick(object sender, EventArgs args)
@@ -72,8 +61,8 @@ namespace demo_mah_wpf
             List<CentralBooking> _bookingList = _taskDataResult.ToList();
             if (_bookingList != null && _bookingList.Count > 0)
             {
-                this.CentralBookingPagination[0].ClearBookingList();
-                this.CentralBookingPagination[0].AddBookingRange(_bookingList);
+                this.CentralBookingPagination.ClearBookingList();
+                this.CentralBookingPagination.AddBookingRange(_bookingList);
                 //for (int i = 0; i < _bookingList.Count; i++)
                 //{
                 //this.CentralBookingPagination.Add(new CentralBooking(string.Format("Development {0}", i), string.Format("Write a WPF program {0}", DateTime.Now.ToString()), 2, TaskType.Home));
@@ -91,13 +80,15 @@ namespace demo_mah_wpf
         public Task<List<CentralBooking>> GetAllData()
         {
             List<CentralBooking> _taskList = new List<CentralBooking>();
-            Char[] ticketType = new Char[]{ 'S', 'C' };
+            Char[] ticketType = new Char[]{ 'S', 'C', 'W' };
             for(int i = 1; i <= 12; i++)
             {
+                var _ticketNum = this.GetRandomInt(1, 99).ToString("D3");
+                var _roomNum = this.GetRandomInt(1, 30).ToString();
                 _taskList.Add(new CentralBooking(
-                    string.Format("{0} {1}",
-                        ticketType[this.GetRandomInt(0, ticketType.Length)], i),
-                    this.GetRandomInt(1, 30).ToString(), 2, TaskType.Home));
+                    string.Format("{0}{1}",
+                        ticketType[this.GetRandomInt(0, ticketType.Length)], _ticketNum),
+                    _roomNum, 2, TaskType.Home));
             }
 
             return Task.FromResult<List<CentralBooking>>(_taskList);

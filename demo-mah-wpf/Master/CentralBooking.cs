@@ -70,7 +70,7 @@ namespace demo_mah_wpf
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public override string ToString() => _name + ": " + _description;
+        public override string ToString() => String.Format("Ticket:{0}, Room:{1}", this.TicketNum, this.RoomNum);
 
         protected void OnPropertyChanged(string info)
         {

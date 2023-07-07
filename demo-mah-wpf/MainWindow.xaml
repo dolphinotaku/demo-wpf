@@ -81,7 +81,7 @@
                     <Setter Property="FontSize" Value="20"/>
                 </Style>
             </DataTemplate.Resources>
-            <Border Name="border" BorderBrush="Red" BorderThickness="1" Background="Transparent"
+            <Border Name="border" BorderBrush="Red" BorderThickness="1"
               Padding="5" Margin="5">
                 <DockPanel HorizontalAlignment="Center">
                     <TextBlock Text="{Binding Path=TicketNum}" />
@@ -91,9 +91,9 @@
         </DataTemplate>
 
         <DataTemplate x:Key="MyTaskTemplate">
-            <Border Name="border" Background="Transparent" BorderThickness="1"
+            <Border Name="border" BorderThickness="1"
               Padding="5" Margin="5">
-                <Grid Background="Transparent">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
@@ -104,7 +104,8 @@
                     </Grid.ColumnDefinitions>
                     <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="Booking Name:"/>-->
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=TicketNum}" />
-                    <mah:FontIcon Grid.Row="0" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Glyph="&#xF0AF;" />
+                    <!--<mah:FontIcon Grid.Row="0" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Glyph="&#xF0AF;" />-->
+                    <iconPacks:PackIconFontAwesome Grid.Row="0" Grid.Column="1" Kind="ArrowRightSolid" />
                     <!--<TextBlock Grid.Row="1" Grid.Column="0" Text="Description:"/>-->
                     <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=RoomNum}"/>
                     <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="Priority:"/>-->
@@ -178,7 +179,7 @@
 
                         <!--<UniformGrid Grid.Row="0" Grid.Column="1">
                             <ListBox DockPanel.Dock="Left"
-                            ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}"
+                            ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination.CentralBookingColumnDisplay}"
                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
                             VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
                          
@@ -188,8 +189,52 @@
                             </ListBox>
                         </UniformGrid>-->
 
-                        <DockPanel Grid.Row="0" Grid.Column="0" Background="Transparent">
-                            <ItemsControl ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination[0].CentralBookingColumnDisplay}" Background="Transparent">
+                        <DockPanel Grid.Row="0" Grid.Column="0">
+                            <UniformGrid Margin="0" Columns="2" Rows="1">
+                                <Viewbox HorizontalAlignment="Center" Stretch="Uniform">
+                                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock Text="籌號" FontSize="24" />
+                                            <TextBlock Text="Ticket No." FontSize="24" />
+                                        </StackPanel>
+                                            <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="房號" FontSize="24" />
+                                            <TextBlock Text="Room No." FontSize="24" />
+                                            </StackPanel>
+                                    </DockPanel>
+                                </Viewbox>
+                                <Viewbox HorizontalAlignment="Center" Stretch="Uniform">
+                                    <DockPanel>
+                                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                            <TextBlock Text="籌號" FontSize="24" />
+                                            <!--<Viewbox Width="1*" />-->
+                                            <TextBlock Text="Ticket No." FontSize="24" />
+                                        </StackPanel>
+                                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                            <TextBlock Text="房號" FontSize="24" />
+                                            <TextBlock Text="Room No." FontSize="24" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Viewbox>
+                                <!--<DockPanel>
+                                    <DockPanel DockPanel.Dock="Left" >
+                                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                                            <TextBlock Text="籌號" />
+                                            <TextBlock Text="Ticket No." />
+                                        </StackPanel>
+                                    </DockPanel>
+                                    <DockPanel DockPanel.Dock="Right">
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Vertical">
+                                            <TextBlock Text="房號" />
+                                            <TextBlock Text="Room No." />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </DockPanel>-->
+                            </UniformGrid>
+                        </DockPanel>
+
+                        <DockPanel Grid.Row="1" Grid.Column="0">
+                            <ItemsControl ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination.CentralBookingColumnDisplay}">
                                 <!--The ItemsControl has no default visual appearance.
                                       Use the Template property to specify a ControlTemplate to define
                                       the appearance of an ItemsControl. The ItemsPresenter uses the specified
@@ -198,7 +243,7 @@
                                       the default is an ItemsPanelTemplate that specifies a StackPanel.-->
                                 <ItemsControl.Template>
                                     <ControlTemplate TargetType="ItemsControl">
-                                        <Border BorderBrush="Black" BorderThickness="3" Background="Transparent">
+                                        <Border BorderBrush="Black" BorderThickness="3">
                                             <ItemsPresenter />
                                         </Border>
                                     </ControlTemplate>
@@ -220,14 +265,14 @@
                                   and TaskName on top of a silver ellipse.-->
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <ListView Background="Transparent"
+                                        <ListView
                                             VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
                                             ScrollViewer.VerticalScrollBarVisibility="Visible"
                                             ScrollViewer.CanContentScroll="False">
                                             <!--<TextBlock Text="{Binding Key}" />
                                             <TextBlock Text="{Binding Value}" />-->
 
-                                            <ListView Background="Transparent"
+                                            <ListView
                                                 ItemsSource="{Binding Value}"
                                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
                                             VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
