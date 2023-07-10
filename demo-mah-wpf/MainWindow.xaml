@@ -71,7 +71,7 @@
         
         <!--<local:TaskList x:Key="MyTodoList"/>-->
         <!--<local:ViewModel x:Key="MyTodoList"/>-->
-        <local:CentralBookingPaginationDataTemplateSelector x:Key="MyDataTemplateSelector"/>
+        <local:BookingPaginationDataTemplateSelector x:Key="MyDataTemplateSelector"/>
 
         <local:ViewModel x:Key="MyTodoList"/>
 
@@ -91,25 +91,28 @@
         </DataTemplate>
 
         <DataTemplate x:Key="MyTaskTemplate">
-            <Border Name="border" BorderThickness="1"
-              Padding="5" Margin="5">
+            <DataTemplate.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="48"/>
+                </Style>
+            </DataTemplate.Resources>
+            <Border Name="border" BorderThickness="1" Background="Transparent"
+              Padding="0" Margin="5">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
+                    
                     <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="Booking Name:"/>-->
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=TicketNum}" />
                     <!--<mah:FontIcon Grid.Row="0" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Glyph="&#xF0AF;" />-->
-                    <iconPacks:PackIconFontAwesome Grid.Row="0" Grid.Column="1" Kind="ArrowRightSolid" />
-                    <!--<TextBlock Grid.Row="1" Grid.Column="0" Text="Description:"/>-->
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=RoomNum}"/>
-                    <!--<TextBlock Grid.Row="2" Grid.Column="0" Text="Priority:"/>-->
-                    <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=Priority}"/>-->
+                    <iconPacks:PackIconFontAwesome Grid.Row="0" Grid.Column="1" Kind="ArrowRightSolid" Width="32" Height="32" VerticalAlignment="Center" HorizontalContentAlignment="Center" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=RoomNum}" />
                 </Grid>
             </Border>
 
@@ -136,8 +139,7 @@
 
     <!-- Grid not support scrolling functionality, embed Grid into StackPanel -->
     <DockPanel Width="auto" Height="auto" Margin="0">
-        <ScrollViewer HorizontalScrollBarVisibility="Visible">
-            <Grid>
+        <Grid>
                 <!--  Your content  -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
@@ -150,15 +152,9 @@
                     <TextBlock Text="{StaticResource strHelloWorld}" FontSize="56" />
                     <TextBlock>Just another "<TextBlock Text="{StaticResource strHelloWorld}" />" example, but with resources!</TextBlock>
                 </StackPanel>
-                
-                <StackPanel Margin="10" Grid.Row="1" Grid.Column="0" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
-                    <!--<ScrollViewer>
-                    <ListBox ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination}"
-                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
-                             HorizontalContentAlignment="Stretch" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
-                    </ListBox>
-                </ScrollViewer>-->
-                    <Grid>
+
+                <StackPanel Margin="0" Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+                    <Grid Margin="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"></RowDefinition>
                             <RowDefinition Height="8*"></RowDefinition>
@@ -167,71 +163,69 @@
                             <ColumnDefinition Width="2*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        
-                        <Rectangle Grid.Column="0" Grid.RowSpan="1000">
+
+                        <!--<Rectangle Grid.Column="0" Grid.RowSpan="1000" Margin="0" Stroke="Black" StrokeThickness="3">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightGray" Offset="0" />
+                                        <GradientStop Color="LightGray" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Grid.Column="1" Grid.RowSpan="1000" Margin="0" Stroke="Black" StrokeThickness="3">
                             <Rectangle.Fill>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="Gray" Offset="0" />
-                                    <GradientStop Color="Gray" Offset="1" />
+                                    <GradientStop Color="PaleTurquoise" Offset="0" />
+                                    <GradientStop Color="PaleTurquoise" Offset="1" />
                                 </LinearGradientBrush>
                             </Rectangle.Fill>
-                        </Rectangle>
+                        </Rectangle>-->
 
-                        <!--<UniformGrid Grid.Row="0" Grid.Column="1">
-                            <ListBox DockPanel.Dock="Left"
-                            ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination.CentralBookingColumnDisplay}"
-                            ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
-                            VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
-                         
-                            ScrollViewer.VerticalScrollBarVisibility="Visible"
-                            ScrollViewer.CanContentScroll="False">
-                                <TextBlock Text="{Binding Value.TaskName}" />
-                            </ListBox>
-                        </UniformGrid>-->
+                        <!--<DockPanel Grid.Row="0" Grid.Column="0" Background="LightGray" Margin="0">
+                            <DockPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="20"/>
+                                </Style>
+                            </DockPanel.Resources>-->
 
-                        <DockPanel Grid.Row="0" Grid.Column="0">
-                            <UniformGrid Margin="0" Columns="2" Rows="1">
-                                <Viewbox HorizontalAlignment="Center" Stretch="Uniform">
-                                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock Text="籌號" FontSize="24" />
-                                            <TextBlock Text="Ticket No." FontSize="24" />
-                                        </StackPanel>
-                                            <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock Text="房號" FontSize="24" />
-                                            <TextBlock Text="Room No." FontSize="24" />
+                            <Border BorderBrush="Black" BorderThickness="3" Grid.Row="0" Grid.Column="0" Padding="0" Margin="0" VerticalAlignment="Top">
+                                <Grid Margin="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="Green">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="32"/>
+                                        </Style>
+                                    </Grid.Resources>
+
+                                    <DockPanel Grid.Column="1" VerticalAlignment="Top">
+                                        <StackPanel DockPanel.Dock="Left" Background="Yellow" HorizontalAlignment="Center">
+                                            <TextBlock Text="籌號"/>
+                                            <TextBlock Text="Ticket No."/>
                                             </StackPanel>
-                                    </DockPanel>
-                                </Viewbox>
-                                <Viewbox HorizontalAlignment="Center" Stretch="Uniform">
-                                    <DockPanel>
-                                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
-                                            <TextBlock Text="籌號" FontSize="24" />
-                                            <!--<Viewbox Width="1*" />-->
-                                            <TextBlock Text="Ticket No." FontSize="24" />
-                                        </StackPanel>
-                                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
-                                            <TextBlock Text="房號" FontSize="24" />
-                                            <TextBlock Text="Room No." FontSize="24" />
+                                        <StackPanel DockPanel.Dock="Right" Background="Red" HorizontalAlignment="Center">
+                                            <TextBlock Text="房號"/>
+                                            <TextBlock Text="Room No."/>
                                         </StackPanel>
                                     </DockPanel>
-                                </Viewbox>
-                                <!--<DockPanel>
-                                    <DockPanel DockPanel.Dock="Left" >
-                                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
-                                            <TextBlock Text="籌號" />
-                                            <TextBlock Text="Ticket No." />
+                                    <DockPanel Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                        <StackPanel DockPanel.Dock="Left" Background="Yellow" HorizontalAlignment="Center" >
+                                            <TextBlock Text="籌號"/>
+                                            <TextBlock Text="Ticket No."/>
+                                        </StackPanel>
+                                        <StackPanel DockPanel.Dock="Right" Background="Red" HorizontalAlignment="Center">
+                                            <TextBlock Text="房號"/>
+                                            <TextBlock Text="Room No."/>
                                         </StackPanel>
                                     </DockPanel>
-                                    <DockPanel DockPanel.Dock="Right">
-                                        <StackPanel DockPanel.Dock="Right" Orientation="Vertical">
-                                            <TextBlock Text="房號" />
-                                            <TextBlock Text="Room No." />
-                                        </StackPanel>
-                                    </DockPanel>
-                                </DockPanel>-->
-                            </UniformGrid>
-                        </DockPanel>
+                                </Grid>
+                            </Border>
+                        <!--</DockPanel>-->
 
                         <DockPanel Grid.Row="1" Grid.Column="0">
                             <ItemsControl ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination.CentralBookingColumnDisplay}">
@@ -243,8 +237,8 @@
                                       the default is an ItemsPanelTemplate that specifies a StackPanel.-->
                                 <ItemsControl.Template>
                                     <ControlTemplate TargetType="ItemsControl">
-                                        <Border BorderBrush="Black" BorderThickness="3">
-                                            <ItemsPresenter />
+                                        <Border BorderBrush="Black" BorderThickness="2">
+                                            <ItemsPresenter/>
                                         </Border>
                                     </ControlTemplate>
                                 </ItemsControl.Template>
@@ -255,7 +249,7 @@
                                   how the items are laid out.-->
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <UniformGrid ></UniformGrid>
+                                        <UniformGrid></UniformGrid>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
 
@@ -265,26 +259,118 @@
                                   and TaskName on top of a silver ellipse.-->
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <ListView
-                                            VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
-                                            ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                            ScrollViewer.CanContentScroll="False">
                                             <!--<TextBlock Text="{Binding Key}" />
                                             <TextBlock Text="{Binding Value}" />-->
-
-                                            <ListView
+                                        <ListView
+                                            BorderBrush="Black" BorderThickness="2"
                                                 ItemsSource="{Binding Value}"
                                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
-                                            VerticalAlignment="Top" VerticalContentAlignment="Stretch" 
-                                            ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                            ScrollViewer.CanContentScroll="False">
-                                            </ListView>
+                                            VerticalAlignment="Center" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Height" Value="72" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
                                         </ListView>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </DockPanel>
-                    </Grid>
+
+                        <!--<DockPanel Grid.Row="0" Grid.Column="1">
+                            <UniformGrid Margin="0" Columns="1" Rows="1">
+                                <Viewbox HorizontalAlignment="Center" Stretch="Uniform">
+                                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                        <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="非預約籌號" FontSize="24" />
+                                            <TextBlock Text="Walk-in Ticket" FontSize="24" />
+                                        </StackPanel>
+                                        <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="房號" FontSize="24" />
+                                            <TextBlock Text="Room No." FontSize="24" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Viewbox>
+                            </UniformGrid>
+                        </DockPanel>-->
+
+                        <Border BorderBrush="Black" BorderThickness="3" Grid.Row="0" Grid.Column="1" Padding="0" Margin="0" VerticalAlignment="Top">
+                            <Grid Margin="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="Green">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="32"/>
+                                    </Style>
+                                </Grid.Resources>
+
+                                <DockPanel Grid.Column="1" VerticalAlignment="Top">
+                                    <StackPanel DockPanel.Dock="Left" Background="Yellow" HorizontalAlignment="Center">
+                                        <TextBlock Text="非預約籌號"/>
+                                        <TextBlock Text="Walk-in Ticket"/>
+                                    </StackPanel>
+                                    <StackPanel DockPanel.Dock="Right" Background="Red" HorizontalAlignment="Center">
+                                        <TextBlock Text="房號"/>
+                                        <TextBlock Text="Room No."/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Grid>
+                        </Border>
+
+
+                        <DockPanel Grid.Row="1" Grid.Column="1">
+                        <ItemsControl ItemsSource="{Binding WalkInBookingViewModel.WalkInBookingPagination.WalkInBookingColumnDisplay}">
+                                <!--The ItemsControl has no default visual appearance.
+                                          Use the Template property to specify a ControlTemplate to define
+                                          the appearance of an ItemsControl. The ItemsPresenter uses the specified
+                                          ItemsPanelTemplate (see below) to layout the items. If an
+                                          ItemsPanelTemplate is not specified, the default is used. (For ItemsControl,
+                                          the default is an ItemsPanelTemplate that specifies a StackPanel.-->
+                                <ItemsControl.Template>
+                                    <ControlTemplate TargetType="ItemsControl">
+                                        <Border BorderBrush="Black" BorderThickness="2">
+                                            <ItemsPresenter/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+
+                                <!--Use the ItemsPanel property to specify an ItemsPanelTemplate
+                                      that defines the panel that is used to hold the generated items.
+                                      In other words, use this property if you want to affect
+                                      how the items are laid out.-->
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid></UniformGrid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <!--Use the ItemTemplate to set a DataTemplate to define
+                                      the visualization of the data objects. This DataTemplate
+                                      specifies that each data object appears with the Priority
+                                      and TaskName on top of a silver ellipse.-->
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!--<TextBlock Text="{Binding Key}" />
+                                                <TextBlock Text="{Binding Value}" />-->
+                                        <ListView
+                                                BorderBrush="Black" BorderThickness="2"
+                                                    ItemsSource="{Binding Value}"
+                                                ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
+                                                VerticalAlignment="Center" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
+                                            <!--<ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Height" Value="72" />
+                                                </Style>
+                                            </ListView.ItemContainerStyle>-->
+                                        </ListView>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DockPanel>
+                </Grid>
                 </StackPanel>
 
                 <!--<DockPanel Margin="10" Name="pnlMain" Grid.Row="2" Grid.Column="0">
@@ -323,6 +409,5 @@
                 <!--
             </DockPanel>-->
             </Grid>
-        </ScrollViewer>
     </DockPanel>
 </mah:MetroWindow>

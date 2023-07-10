@@ -80,15 +80,18 @@ namespace demo_mah_wpf
         public Task<List<CentralBooking>> GetAllData()
         {
             List<CentralBooking> _taskList = new List<CentralBooking>();
-            Char[] ticketType = new Char[]{ 'S', 'C', 'W' };
-            for(int i = 1; i <= 12; i++)
+            Char[] ticketType = new Char[] { 'S', 'C', 'W' };
+            Char[] roomType = new Char[] { ' ', 'S' };
+            for (int i = 1; i <= 12; i++)
             {
                 var _ticketNum = this.GetRandomInt(1, 99).ToString("D3");
                 var _roomNum = this.GetRandomInt(1, 30).ToString();
                 _taskList.Add(new CentralBooking(
                     string.Format("{0}{1}",
                         ticketType[this.GetRandomInt(0, ticketType.Length)], _ticketNum),
-                    _roomNum, 2, TaskType.Home));
+                    string.Format("{0}{1}",
+                        roomType[this.GetRandomInt(0, roomType.Length)], _roomNum),
+                    2, TaskType.Home));
             }
 
             return Task.FromResult<List<CentralBooking>>(_taskList);

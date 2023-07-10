@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace demo_mah_wpf
 {
-    public class CentralBooking : Booking
+    public class WalkInBooking : Booking
     {
-        public CentralBooking() : base()
+
+        public WalkInBooking() : base()
         {
         }
 
-        public CentralBooking(string ticketNum, string roomNum, int priority, TaskType type) : base()
+        public WalkInBooking(string ticketNum, string roomNum, int priority, TaskType type) : base()
         {
             _ticketNum = ticketNum;
             _roomNum = roomNum;

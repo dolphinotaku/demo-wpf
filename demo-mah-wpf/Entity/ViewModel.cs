@@ -14,21 +14,33 @@ namespace demo_mah_wpf
 {
     public class ViewModel
     {
-        private CentralBookingViewModel _TaskList;
+        private CentralBookingViewModel _bookingListA;
         public CentralBookingViewModel CentralBookingViewModel
         {
-            get { return _TaskList; }
+            get { return _bookingListA; }
             set
             {
-                _TaskList = value;
+                _bookingListA = value;
             }
         }
+        private WalkInBookingViewModel _bookingListB;
+        public WalkInBookingViewModel WalkInBookingViewModel
+        {
+            get { return _bookingListB; }
+            set
+            {
+                _bookingListB = value;
+            }
+        }
+
+        
 
         public ViewModel() : base()
         {
             //BindingOperations.EnableCollectionSynchronization(TaskCollection1, _lock);
 
             this.CentralBookingViewModel = new CentralBookingViewModel();
+            this.WalkInBookingViewModel = new WalkInBookingViewModel();
 
             // use async in .net framework 4.7.2
             // otherwise, complie error: async streams is not available in 7.3

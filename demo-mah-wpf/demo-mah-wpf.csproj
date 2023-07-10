@@ -215,9 +215,14 @@
     </ApplicationDefinition>
     <Compile Include="Common\ObservableConcurrentDictionary.cs" />
     <Compile Include="Common\BaseViewModel.cs" />
+    <Compile Include="DataTemplate\BookingPaginationDataTemplateSelector.cs" />
+    <Compile Include="Entity\WalkInBookingPagination.cs" />
+    <Compile Include="Entity\WalkInBookingViewModel.cs" />
     <Compile Include="Entity\FetchDataViewModel.cs" />
     <Compile Include="Entity\NameList.cs" />
     <Compile Include="Entity\CentralBookingPagination.cs" />
+    <Compile Include="Master\WalkInBooking.cs" />
+    <Compile Include="Master\Booking.cs" />
     <Compile Include="Master\PersonObject.cs" />
     <Compile Include="Master\CentralBooking.cs" />
     <Compile Include="DataTemplate\CentralBookingPaginationDataTemplateSelector.cs" />
