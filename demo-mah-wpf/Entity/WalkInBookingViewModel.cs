@@ -80,7 +80,7 @@ namespace demo_mah_wpf
         public Task<List<WalkInBooking>> GetAllData()
         {
             List<WalkInBooking> _taskList = new List<WalkInBooking>();
-            Char[] ticketType = new Char[] { 'S', 'C', 'W' };
+            Char[] ticketType = new Char[] { 'W' };
             Char[] roomType = new Char[] { ' ', 'S' };
             for (int i = 1; i <= 12; i++)
             {

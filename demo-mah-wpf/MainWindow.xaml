@@ -16,13 +16,13 @@
                     WindowStartupLocation="CenterScreen"
                     mc:Ignorable="d" Topmost="False"
                  
-    ShowTitleBar="True"
+    ShowTitleBar="False"
 
-    ShowCloseButton="True" 
-    ShowMaxRestoreButton="True" 
-    ShowMinButton="True"
+    ShowCloseButton="False" 
+    ShowMaxRestoreButton="False" 
+    ShowMinButton="False"
 
-    ShowIconOnTitleBar="True">
+    ShowIconOnTitleBar="False">
 
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
@@ -59,7 +59,7 @@
             <Setter Property="FontSize" Value="100" />
         </Style>
         
-        <sys:String x:Key="strHelloWorld">Hello, world!</sys:String>
+        <sys:String x:Key="strHelloWorld">Bus Booking Area</sys:String>
         <sys:String x:Key="strWindow">Hello, Window world!</sys:String>
         <x:Array x:Key="ComboBoxItems" Type="sys:String">
             <sys:String>Item #1</sys:String>
@@ -93,7 +93,7 @@
         <DataTemplate x:Key="MyTaskTemplate">
             <DataTemplate.Resources>
                 <Style TargetType="TextBlock">
-                    <Setter Property="FontSize" Value="48"/>
+                    <Setter Property="FontSize" Value="53"/>
                 </Style>
             </DataTemplate.Resources>
             <Border Name="border" BorderThickness="1" Background="Transparent"
@@ -150,7 +150,7 @@
 
                 <StackPanel Margin="10" Grid.Row="0" Grid.Column="0" Orientation="Vertical">
                     <TextBlock Text="{StaticResource strHelloWorld}" FontSize="56" />
-                    <TextBlock>Just another "<TextBlock Text="{StaticResource strHelloWorld}" />" example, but with resources!</TextBlock>
+                <TextBlock>two rows of bus booking will be displayed</TextBlock>
                 </StackPanel>
 
                 <StackPanel Margin="0" Grid.Row="1" Grid.Column="0" Orientation="Vertical">
@@ -163,30 +163,6 @@
                             <ColumnDefinition Width="2*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-
-                        <!--<Rectangle Grid.Column="0" Grid.RowSpan="1000" Margin="0" Stroke="Black" StrokeThickness="3">
-                                <Rectangle.Fill>
-                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="LightGray" Offset="0" />
-                                        <GradientStop Color="LightGray" Offset="1" />
-                                    </LinearGradientBrush>
-                                </Rectangle.Fill>
-                        </Rectangle>
-                        <Rectangle Grid.Column="1" Grid.RowSpan="1000" Margin="0" Stroke="Black" StrokeThickness="3">
-                            <Rectangle.Fill>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="PaleTurquoise" Offset="0" />
-                                    <GradientStop Color="PaleTurquoise" Offset="1" />
-                                </LinearGradientBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>-->
-
-                        <!--<DockPanel Grid.Row="0" Grid.Column="0" Background="LightGray" Margin="0">
-                            <DockPanel.Resources>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="20"/>
-                                </Style>
-                            </DockPanel.Resources>-->
 
                             <Border BorderBrush="Black" BorderThickness="3" Grid.Row="0" Grid.Column="0" Padding="0" Margin="0" VerticalAlignment="Top">
                                 <Grid Margin="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="Green">
@@ -227,7 +203,7 @@
                             </Border>
                         <!--</DockPanel>-->
 
-                        <DockPanel Grid.Row="1" Grid.Column="0">
+                        <DockPanel Grid.Row="1" Grid.Column="0" Background="Gainsboro">
                             <ItemsControl ItemsSource="{Binding CentralBookingViewModel.CentralBookingPagination.CentralBookingColumnDisplay}">
                                 <!--The ItemsControl has no default visual appearance.
                                       Use the Template property to specify a ControlTemplate to define
@@ -261,15 +237,16 @@
                                     <DataTemplate>
                                             <!--<TextBlock Text="{Binding Key}" />
                                             <TextBlock Text="{Binding Value}" />-->
-                                        <ListView
+                                        <ListView Background="Transparent"
                                             BorderBrush="Black" BorderThickness="2"
                                                 ItemsSource="{Binding Value}"
                                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
-                                            VerticalAlignment="Center" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
+                                            VerticalAlignment="Top" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
                                             <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="Height" Value="72" />
-                                                </Style>
+                                            <Style TargetType="ListViewItem">
+                                                <!--<Setter Property="Height" Value="72" />-->
+                                                <!--<Setter Property="Height" Value="72" />-->
+                                            </Style>
                                             </ListView.ItemContainerStyle>
                                         </ListView>
                                     </DataTemplate>
@@ -321,7 +298,7 @@
                         </Border>
 
 
-                        <DockPanel Grid.Row="1" Grid.Column="1">
+                    <DockPanel Grid.Row="1" Grid.Column="1" Margin="0" Background="PaleTurquoise">
                         <ItemsControl ItemsSource="{Binding WalkInBookingViewModel.WalkInBookingPagination.WalkInBookingColumnDisplay}">
                                 <!--The ItemsControl has no default visual appearance.
                                           Use the Template property to specify a ControlTemplate to define
@@ -330,10 +307,10 @@
                                           ItemsPanelTemplate is not specified, the default is used. (For ItemsControl,
                                           the default is an ItemsPanelTemplate that specifies a StackPanel.-->
                                 <ItemsControl.Template>
-                                    <ControlTemplate TargetType="ItemsControl">
-                                        <Border BorderBrush="Black" BorderThickness="2">
-                                            <ItemsPresenter/>
-                                        </Border>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <Border BorderBrush="Black" BorderThickness="2">
+                                        <ItemsPresenter/>
+                                    </Border>
                                     </ControlTemplate>
                                 </ItemsControl.Template>
 
@@ -353,18 +330,16 @@
                                       and TaskName on top of a silver ellipse.-->
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <!--<TextBlock Text="{Binding Key}" />
-                                                <TextBlock Text="{Binding Value}" />-->
-                                        <ListView
+                                    <ListView Background="Transparent"
                                                 BorderBrush="Black" BorderThickness="2"
                                                     ItemsSource="{Binding Value}"
                                                 ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
-                                                VerticalAlignment="Center" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
-                                            <!--<ListView.ItemContainerStyle>
+                                                VerticalAlignment="Top" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
+                                            <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
-                                                    <Setter Property="Height" Value="72" />
+                                                    <!--<Setter Property="Height" Value="72" />-->
                                                 </Style>
-                                            </ListView.ItemContainerStyle>-->
+                                            </ListView.ItemContainerStyle>
                                         </ListView>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
