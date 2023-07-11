@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -51,7 +52,30 @@ namespace demo_mah_wpf
             //// Create the thread and kick it started! 
             //new Thread(start).Start();
 
+            this.DisplayCurrentDateTime();
+
             this.DataContext = new ViewModel();
+
+            //this.RightToLeftMarquee(20);
+
+            this.curDateTimeTxtBlock.SetBinding(TextBlock.TextProperty, new Binding("Date"));
+
+            // set full screen, this will break the Mah windows property SaveWindowPosition="True|False"
+            this.WindowState = WindowState.Maximized;
+            this.WindowStyle = WindowStyle.None;
+        }
+
+        private void DisplayCurrentDateTime()
+        {
+            DispatcherTimer LiveTime = new DispatcherTimer();
+            LiveTime.Interval = TimeSpan.FromSeconds(1);
+            LiveTime.Tick += DateTimeElementTick;
+            LiveTime.Start();
+        }
+
+        private void DateTimeElementTick(object sender, EventArgs e)
+        {
+            this.curDateTimeTxtBlock.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
         }
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
@@ -76,6 +100,31 @@ namespace demo_mah_wpf
             }
         }
 
+
+        public void StartRightToLeftMarquee(Panel container, Control labelOrTextBox, Duration duration)
+        {
+            //TimeSpan.FromSeconds(5)
+
+            //var s = new StackPanel();
+            //var t = new TextBox() { Text = "test" };
+            //var b = new Button() { Content = "abcd" };
+            container.Children.Add(labelOrTextBox);
+
+            var fade = new DoubleAnimation()
+            {
+                From = 0,
+                To = container.Width,
+                Duration = duration,
+            };
+
+            Storyboard.SetTarget(fade, labelOrTextBox);
+            Storyboard.SetTargetProperty(fade, new PropertyPath(Button.OpacityProperty));
+
+            var sb = new Storyboard();
+            sb.Children.Add(fade);
+
+            sb.Begin();
+        }
         //private void btnClickMe_Click(object sender, RoutedEventArgs e)
         //{
         //    // use panel resource
@@ -85,6 +134,30 @@ namespace demo_mah_wpf
         //    // use app resource
         //    lbResult.Items.Add(Application.Current.FindResource("strApp").ToString());
         //}
+
+        //private void LeftToRightMarquee(int _marqueeTimeInSeconds)
+        //{
+        //    double height = canMain.ActualHeight - tbmarquee.ActualHeight;
+        //    tbmarquee.Margin = new Thickness(0, height / 2, 0, 0);
+        //    DoubleAnimation doubleAnimation = new DoubleAnimation();
+        //    doubleAnimation.From = -tbmarquee.ActualWidth;
+        //    doubleAnimation.To = canMain.ActualWidth;
+        //    doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+        //    doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(_marqueeTimeInSeconds));
+        //    tbmarquee.BeginAnimation(Canvas.LeftProperty, doubleAnimation);
+        //}
+        //private void RightToLeftMarquee(int _marqueeTimeInSeconds)
+        //{
+        //    double height = canMain.ActualHeight - tbmarquee.ActualHeight;
+        //    tbmarquee.Margin = new Thickness(0, height / 2, 0, 0);
+        //    DoubleAnimation doubleAnimation = new DoubleAnimation();
+        //    doubleAnimation.From = -tbmarquee.ActualWidth;
+        //    doubleAnimation.To = canMain.ActualWidth;
+        //    doubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+        //    doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(_marqueeTimeInSeconds));
+        //    tbmarquee.BeginAnimation(Canvas.RightProperty, doubleAnimation);
+        //}
+
     }
 
 }

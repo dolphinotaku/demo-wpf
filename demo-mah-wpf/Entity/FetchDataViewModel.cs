@@ -12,7 +12,8 @@ namespace demo_mah_wpf.Entity
         protected readonly DispatcherTimer refreshDataTimer = new DispatcherTimer();
         protected readonly DispatcherTimer refreshPageTimer = new DispatcherTimer();
 
-        protected readonly int defaultTimeInterval = 1;
+        protected readonly int defaultDataTimeInterval = 1;
+        protected readonly int defaultPageTimeInterval = 10;
         protected int currentSecond = -1;
 
         private int _defaultRefreshDataInEverySecond; // define how long will refresh data
@@ -63,11 +64,11 @@ namespace demo_mah_wpf.Entity
             this._defaultRefreshPageInEverySecond = 10; // define how long will refresh display
             // to do, read config file to get the above value
 
-            refreshDataTimer.Interval = TimeSpan.FromSeconds(this.defaultTimeInterval);
+            refreshDataTimer.Interval = TimeSpan.FromSeconds(this.defaultDataTimeInterval);
             refreshDataTimer.Tick += DataTimerTick;
             refreshDataTimer.Start();
 
-            refreshPageTimer.Interval = TimeSpan.FromSeconds(10);
+            refreshPageTimer.Interval = TimeSpan.FromSeconds(this.defaultPageTimeInterval);
             refreshPageTimer.Tick += DataTimerTick;
             refreshPageTimer.Start();
         }
