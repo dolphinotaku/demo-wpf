@@ -32,6 +32,15 @@ namespace demo_mah_wpf
                 _bookingListB = value;
             }
         }
+        private BusBookingViewModel _bookingListC;
+        public BusBookingViewModel BusBookingViewModel
+        {
+            get { return _bookingListC; }
+            set
+            {
+                _bookingListC = value;
+            }
+        }
 
         
 
@@ -41,6 +50,7 @@ namespace demo_mah_wpf
 
             this.CentralBookingViewModel = new CentralBookingViewModel();
             this.WalkInBookingViewModel = new WalkInBookingViewModel();
+            this.BusBookingViewModel = new BusBookingViewModel();
 
             // use async in .net framework 4.7.2
             // otherwise, complie error: async streams is not available in 7.3

@@ -48,6 +48,16 @@ namespace demo_mah_wpf
             }
         }
 
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                OnPropertyChanged("Description");
+            }
+        }
+
         public int Priority
         {
             get { return _priority; }

@@ -14,6 +14,7 @@ namespace demo_mah_wpf.Entity
         private int _currentPage;
         private int _totalPage;
         private int _defaultPageRowCount;
+        private int _defaultPageColumnCount;
         private LinkedList<WalkInBooking> _tupleList;
         private ObservableConcurrentDictionary<int, List<WalkInBooking>> _walkInBookingColumnDisplay;
         protected WalkInBooking firstDisplayBookingNode;
@@ -24,6 +25,7 @@ namespace demo_mah_wpf.Entity
             this._currentPage = -1;
             this._totalPage = -1;
             this._defaultPageRowCount = 6;
+            this._defaultPageColumnCount = 1;
             this._tupleList = new LinkedList<WalkInBooking>();
             this._walkInBookingColumnDisplay = new ObservableConcurrentDictionary<int, List<WalkInBooking>>();
             this.firstDisplayBookingNode = new WalkInBooking();
@@ -55,6 +57,15 @@ namespace demo_mah_wpf.Entity
             set
             {
                 _defaultPageRowCount = value;
+                OnPropertyChanged("DefaultPageRowCount");
+            }
+        }
+        public int DefaultPageColumnCount
+        {
+            get { return _defaultPageColumnCount; }
+            set
+            {
+                _defaultPageColumnCount = value;
                 OnPropertyChanged("DefaultPageRowCount");
             }
         }
@@ -134,7 +145,7 @@ namespace demo_mah_wpf.Entity
                 column1BookList.Clear();
                 //column2BookList.Clear();
 
-                for (int i = 0; i < this.DefaultPageRowCount * 2; i++)
+                for (int i = 0; i < this.DefaultPageRowCount * this.DefaultPageColumnCount; i++)
                 {
                     LinkedListNode<WalkInBooking> linkedListNode = this.TupleList.Find(this.lastDisplayBookingNode);
                         if (linkedListNode == null)

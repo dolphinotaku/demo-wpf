@@ -72,6 +72,7 @@
         <!--<local:TaskList x:Key="MyTodoList"/>-->
         <!--<local:ViewModel x:Key="MyTodoList"/>-->
         <local:BookingPaginationDataTemplateSelector x:Key="MyDataTemplateSelector"/>
+        <local:BusBookingPaginationDataTemplateSelector x:Key="BusBookingTemplateSelector"/>
 
         <local:ViewModel x:Key="MyTodoList"/>
 
@@ -127,6 +128,85 @@
 
         </DataTemplate>
 
+        <DataTemplate x:Key="DoubleHeightBusBookingTemplate">
+            <DataTemplate.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="42"/>
+                </Style>
+            </DataTemplate.Resources>
+
+            <Border Name="border" BorderThickness="1" Background="Transparent"
+              Padding="0" Margin="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <DockPanel Grid.Row="0" Grid.Column="0" LastChildFill="True">
+                        <TextBlock DockPanel.Dock="Left" Text="{Binding Path=BookDateTimeStr}" />
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Path=Description}" />
+                        </StackPanel>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding Path=RoomNum}" />
+                    </DockPanel>
+                </Grid>
+            </Border>
+
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=TaskType}">
+                    <DataTrigger.Value>
+                        <local:TaskType>Home</local:TaskType>
+                    </DataTrigger.Value>
+                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SingleHeightBusBookingTemplate">
+            <DataTemplate.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="42"/>
+                </Style>
+            </DataTemplate.Resources>
+            <Border Name="border" BorderThickness="1" Background="Transparent"
+              Padding="0" Margin="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="Booking Name:"/>-->
+                    <!--<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=TicketNum}" />
+                    <StackPanel>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=Description}" />
+                    </StackPanel>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=RoomNum}" />-->
+                    <DockPanel Grid.Row="0" Grid.Column="0" LastChildFill="True">
+                        <TextBlock DockPanel.Dock="Left" Text="{Binding Path=BookDateTimeStr}" />
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=Description}" />
+                        </StackPanel>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding Path=RoomNum}" />
+                    </DockPanel>
+                </Grid>
+            </Border>
+
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=TaskType}">
+                    <DataTrigger.Value>
+                        <local:TaskType>Home</local:TaskType>
+                    </DataTrigger.Value>
+                    <Setter TargetName="border" Property="BorderBrush" Value="Yellow" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
         <DataTemplate x:Key="NameItemTemplate">
             <StackPanel>
                 <TextBlock Text="{Binding Path=ID}" />
@@ -159,8 +239,8 @@
                 </StackPanel.Resources>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="8*"></ColumnDefinition>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="7*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0">已到的... Attending...</TextBlock>
                     <TextBlock Grid.Column="1" Name="curDateTimeTxtBlock" HorizontalAlignment="Right" />
@@ -169,8 +249,55 @@
             
             <!-- row 1 - bus booking -->
             <StackPanel Margin="10" Grid.Row="1" Grid.Column="0" Orientation="Vertical">
-                <TextBlock Text="{StaticResource strHelloWorld}" FontSize="56" />
-                <TextBlock>two rows of bus booking will be displayed</TextBlock>
+                <ItemsControl ItemsSource="{Binding BusBookingViewModel.BusBookingPagination.BusBookingColumnDisplay}">
+                    <!--The ItemsControl has no default visual appearance.
+                                      Use the Template property to specify a ControlTemplate to define
+                                      the appearance of an ItemsControl. The ItemsPresenter uses the specified
+                                      ItemsPanelTemplate (see below) to layout the items. If an
+                                      ItemsPanelTemplate is not specified, the default is used. (For ItemsControl,
+                                      the default is an ItemsPanelTemplate that specifies a StackPanel.-->
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <ItemsPresenter/>
+                            </Border>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+
+                    <!--Use the ItemsPanel property to specify an ItemsPanelTemplate
+                                  that defines the panel that is used to hold the generated items.
+                                  In other words, use this property if you want to affect
+                                  how the items are laid out.-->
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid></UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <!--Use the ItemTemplate to set a DataTemplate to define
+                                  the visualization of the data objects. This DataTemplate
+                                  specifies that each data object appears with the Priority
+                                  and TaskName on top of a silver ellipse.-->
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!--<TextBlock Text="{Binding Key}" />
+                                            <TextBlock Text="{Binding Value}" />-->
+                            <ListView Background="Transparent"
+                                            BorderBrush="Black" BorderThickness="2"
+                                                ItemsSource="{Binding Value}"
+                                            ItemTemplateSelector="{StaticResource BusBookingTemplateSelector}"
+                                            VerticalAlignment="Top" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <!--<Setter Property="Height" Value="72" />-->
+                                        <!--<Setter Property="Height" Value="72" />-->
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
             </StackPanel>
 
             <!-- row 2 - Central booking, walk-in booking -->
