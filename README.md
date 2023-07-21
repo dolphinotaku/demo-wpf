@@ -2,7 +2,7 @@
 kick start for WPF development
 
 # Background
-this project help me to get used to WPF development
+This project help me to get used to WPF development, for the one who is new to WPF, I put all the learning materials, POC samples and coding practices in this [project's WIKI](https://github.com/dolphinotaku/demo-wpf/wiki) as an easy reference.
 
 # Scope
 There is a barbecue site managed by a Club House.
