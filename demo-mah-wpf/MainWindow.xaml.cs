@@ -1,5 +1,6 @@
 ﻿using demo_mah_wpf.Entity;
 using MahApps.Metro.Controls;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,45 +25,71 @@ namespace demo_mah_wpf
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(ViewModel ViewModel)
         {
-            InitializeComponent();
 
-            Components.Add(new Object());
-            Components.Add(new Object());
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.File("logs/log-.txt",
+                    outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss}]",
+                    rollingInterval: RollingInterval.Day,
+                    rollOnFileSizeLimit: true,
+                    encoding: Encoding.UTF8,
+                    retainedFileCountLimit: 10,
+                    fileSizeLimitBytes: 10 * 1024)
+                .CreateLogger();
 
-            //// The Work to perform on another thread 
-            //ThreadStart start = delegate () {
-            //    // ... 
-            //    // This will work as its using the dispatcher 
-            //    DispatcherOperation op = Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-            //      new Action<string>(SetStatus), "From Other Thread (Async)");
-            //    DispatcherOperationStatus status = op.Status;
-            //    while (status != DispatcherOperationStatus.Completed)
-            //    {
-            //        status = op.Wait(TimeSpan.FromMilliseconds(1000));
-            //        if (status == DispatcherOperationStatus.Aborted)
-            //        {
-            //            // Alert Someone 
-            //        }
-            //    }
-            //};
-            //// Create the thread and kick it started! 
-            //new Thread(start).Start();
+            try
+            {
+                InitializeComponent();
 
-            this.DisplayCurrentDateTime();
+                Components.Add(new Object());
+                Components.Add(new Object());
 
-            this.DataContext = new ViewModel();
+                this.DisplayCurrentDateTime();
 
-            //this.RightToLeftMarquee(20);
+                //this.DataContext = new ViewModel();
+                this.DataContext = ViewModel;
 
-            this.curDateTimeTxtBlock.SetBinding(TextBlock.TextProperty, new Binding("Date"));
+                //this.RightToLeftMarquee(20);
 
+                this.curDateTimeTxtBlock.SetBinding(TextBlock.TextProperty, new Binding("Date"));
+
+                Log.Verbose("Hello");
+                Log.Debug("Hello");
+                Log.Information("Hello");
+                Log.Warning("Hello");
+                Log.Error("Hello");
+                Log.Fatal("Hello");
+
+                //Console.WriteLine("Hello, World!");
+            }
+            catch (Exception ex)
+            {
+                // 紀錄你的應用程式中未被捕捉的例外 (Unhandled Exception)
+                Log.Error(ex, "Something went wrong");
+            }
+            finally
+            {
+                // 將最後剩餘的 Log 寫入到 Sinks 去！
+                Log.CloseAndFlush();
+            }
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var a = Application.Current.MainWindow;
+            var b = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
             // set full screen, this will break the Mah windows property SaveWindowPosition="True|False"
-            this.WindowState = WindowState.Maximized;
-            this.WindowStyle = WindowStyle.None;
+            //this.WindowState = WindowState.Maximized;
+            //this.WindowStyle = WindowStyle.None;
+
+            //((App)Application.Current).UpdateWindow(sender as Window);
+
+            var senderWindow = sender as Window;
+            senderWindow.WindowState = WindowState.Maximized;
         }
 
         private void DisplayCurrentDateTime()

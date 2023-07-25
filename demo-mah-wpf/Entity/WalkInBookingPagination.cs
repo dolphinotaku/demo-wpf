@@ -97,18 +97,18 @@ namespace demo_mah_wpf.Entity
             if (!this._tupleList.Contains(_booking))
             {
                 this._tupleList.AddFirst(_booking);
-                this.RefreshDisplayColumn();
+                //this.RefreshDisplayColumn();
             }
         }
         public void AddBookingRange(List<WalkInBooking> _bookingList)
         {
-            foreach(WalkInBooking _booking in _bookingList)
+            foreach (WalkInBooking _booking in _bookingList)
             {
                 if (!this._tupleList.Contains(_booking))
                     this._tupleList.AddFirst(_booking);
             }
 
-            this.RefreshDisplayColumn();
+            //this.RefreshDisplayColumn();
         }
         public void RemoveBooking(WalkInBooking _booking)
         {
@@ -117,41 +117,57 @@ namespace demo_mah_wpf.Entity
         public void ClearBookingList()
         {
             this._tupleList.Clear();
+            this.firstDisplayBookingNode = new WalkInBooking();
+            this.lastDisplayBookingNode = new WalkInBooking();
         }
 
         public void RefreshDisplayColumn()
         {
-            //this.WalkInBookingColumnDisplay.Clear();
             List<WalkInBooking> column1BookList = new List<WalkInBooking>();
-            //List<WalkInBooking> column2BookList = new List<WalkInBooking>();
 
             if (this.WalkInBookingColumnDisplay.ContainsKey(1)) column1BookList = this.WalkInBookingColumnDisplay[1];
-            //if (this.WalkInBookingColumnDisplay.ContainsKey(2)) column2BookList = this.WalkInBookingColumnDisplay[2];
 
             // if queryList is empty
             // add empty to the list, to expand the block on the layout
             if (this.TupleList == null || this.TupleList.Count == 0)
             {
-                for(int i = 0; i<6; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     WalkInBooking _booking1 = new WalkInBooking();
                     WalkInBooking _booking2 = new WalkInBooking();
                     column1BookList.Add(_booking1);
-                    //column2BookList.Add(_booking2);
                 }
             }
             else
             {
                 column1BookList.Clear();
-                //column2BookList.Clear();
 
                 for (int i = 0; i < this.DefaultPageRowCount * this.DefaultPageColumnCount; i++)
                 {
-                    LinkedListNode<WalkInBooking> linkedListNode = this.TupleList.Find(this.lastDisplayBookingNode);
-                        if (linkedListNode == null)
+                    LinkedListNode<WalkInBooking> linkedListNode = null;
+                    if (!this.lastDisplayBookingNode.IsEmpty())
+                    {
+                        linkedListNode = this.TupleList.FindLast(this.lastDisplayBookingNode);
+                    }
+                    if (linkedListNode == null)
+                    {
+                        linkedListNode = this.TupleList.First;
+                    }
+                    else
+                    {
+                        if (linkedListNode == this.TupleList.Last && i == 0)
+                        {
                             linkedListNode = this.TupleList.First;
-                        else 
+                        }
+                        else if (linkedListNode == this.TupleList.Last && i >= 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
                             linkedListNode = linkedListNode.Next;
+                        }
+                    }
 
                     WalkInBooking _booking = linkedListNode.Value;
                     // mark the first displaying node
@@ -159,25 +175,19 @@ namespace demo_mah_wpf.Entity
 
                     // the node is repeat, means the list was looped through
                     // break the display for loop
-                    if (i!=0 && _booking == this.firstDisplayBookingNode) break; 
+                    if (i != 0 && _booking == this.firstDisplayBookingNode) break;
 
-                    if (column1BookList.Count < this.DefaultPageRowCount) {
+                    if (column1BookList.Count < this.DefaultPageRowCount)
+                    {
                         column1BookList.Add(_booking);
-                    } 
-                    //else if (column2BookList.Count < this.DefaultPageRowCount) {
-                    //    column2BookList.Add(_booking);
-                    //}
+                    }
 
                     // mark the last displaying node
                     lastDisplayBookingNode = _booking;
                 }
             }
 
-            //this.WalkInBookingColumnDisplay.Add(1, column1BookList);
-            //this.WalkInBookingColumnDisplay.Add(2, column2BookList);
-
             this.WalkInBookingColumnDisplay[1] = column1BookList;
-            //this.WalkInBookingColumnDisplay[2] = column2BookList;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

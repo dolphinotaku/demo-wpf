@@ -97,18 +97,18 @@ namespace demo_mah_wpf.Entity
             if (!this._tupleList.Contains(_booking))
             {
                 this._tupleList.AddFirst(_booking);
-                this.RefreshDisplayColumn();
+                //this.RefreshDisplayColumn();
             }
         }
         public void AddBookingRange(List<BusBooking> _bookingList)
         {
-            foreach(BusBooking _booking in _bookingList)
+            foreach (BusBooking _booking in _bookingList)
             {
                 if (!this._tupleList.Contains(_booking))
                     this._tupleList.AddFirst(_booking);
             }
 
-            this.RefreshDisplayColumn();
+            //this.RefreshDisplayColumn();
         }
         public void RemoveBooking(BusBooking _booking)
         {
@@ -117,22 +117,21 @@ namespace demo_mah_wpf.Entity
         public void ClearBookingList()
         {
             this._tupleList.Clear();
+            this.firstDisplayBookingNode = new BusBooking();
+            this.lastDisplayBookingNode = new BusBooking();
         }
 
         public void RefreshDisplayColumn()
         {
-            //this.BusBookingColumnDisplay.Clear();
             List<BusBooking> column1BookList = new List<BusBooking>();
-            //List<BusBooking> column2BookList = new List<BusBooking>();
 
             if (this.BusBookingColumnDisplay.ContainsKey(1)) column1BookList = this.BusBookingColumnDisplay[1];
-            //if (this.BusBookingColumnDisplay.ContainsKey(2)) column2BookList = this.BusBookingColumnDisplay[2];
 
             // if queryList is empty
             // add empty to the list, to expand the block on the layout
             if (this.TupleList == null || this.TupleList.Count == 0)
             {
-                for(int i = 0; i<6; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     BusBooking _booking1 = new BusBooking();
                     column1BookList.Add(_booking1);
@@ -142,71 +141,73 @@ namespace demo_mah_wpf.Entity
             {
                 column1BookList.Clear();
 
-                LinkedListNode<BusBooking> linkedListNode = this.TupleList.Find(this.lastDisplayBookingNode);
-                if (linkedListNode == null)
-                    linkedListNode = this.TupleList.First;
-                else
-                    linkedListNode = linkedListNode.Next;
-
-                BusBooking _booking1 = linkedListNode.Value;
-                BusBooking _booking2 = new BusBooking();
-
-                if (this.firstDisplayBookingNode != _booking1)
+                for (int i = 0; i < this.DefaultPageRowCount * this.DefaultPageColumnCount; i++)
                 {
-                    this.firstDisplayBookingNode = _booking1;
-
-                    column1BookList.Add(_booking1);
-                    // mark the last displaying node
-                    this.lastDisplayBookingNode = _booking1;
-
-                    if (!string.IsNullOrEmpty(_booking1.Description) && _booking1.Description.Length < 30)
+                    LinkedListNode<BusBooking> linkedListNode = null;
+                    if (!this.lastDisplayBookingNode.IsEmpty())
                     {
-                        _booking2 = linkedListNode.Next.Value;
-                        if(!string.IsNullOrEmpty(_booking2.Description) && _booking2.Description.Length < 30)
-                        {
-                            column1BookList.Add(_booking2);
-                            // mark the last displaying node
-                            this.lastDisplayBookingNode = _booking2;
-                        }
-
+                        linkedListNode = this.TupleList.FindLast(this.lastDisplayBookingNode);
                     }
-                }
-                else
-                {
+                    if (linkedListNode == null)
+                    {
+                        linkedListNode = this.TupleList.First;
+                    }
+                    else
+                    {
+                        if (linkedListNode == this.TupleList.Last && i == 0)
+                        {
+                            linkedListNode = this.TupleList.First;
+                        }
+                        else if (linkedListNode == this.TupleList.Last && i >= 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            linkedListNode = linkedListNode.Next;
+                        }
+                    }
+
+                    BusBooking _booking = linkedListNode.Value;
+                    // mark the first displaying node
+                    if (i == 0) this.firstDisplayBookingNode = _booking;
+
                     // the node is repeat, means the list was looped through
                     // break the display for loop
+                    if (i != 0 && _booking == this.firstDisplayBookingNode) break;
+
+                    if (!string.IsNullOrEmpty(_booking.Description))
+                    {
+                        if (_booking.Description.Length < 45)
+                        {
+                            _booking.RowHeight = 1;
+                        }
+                        else if (_booking.Description.Length >= 45)
+                        {
+                            _booking.RowHeight = 2;
+                        }
+                    }
+
+                    if (column1BookList.Count < this.DefaultPageRowCount)
+                    {
+                        column1BookList.Add(_booking);
+                    }
+
+                    // mark the last displaying node
+                    this.lastDisplayBookingNode = _booking;
                 }
 
-                //for (int i = 0; i < this.DefaultPageRowCount * this.DefaultPageColumnCount; i++)
-                //{
-                //    LinkedListNode<BusBooking> linkedListNode = this.TupleList.Find(this.lastDisplayBookingNode);
-                //        if (linkedListNode == null)
-                //            linkedListNode = this.TupleList.First;
-                //        else 
-                //            linkedListNode = linkedListNode.Next;
+                // calculate row height
+                while (column1BookList.Select(node => node.RowHeight).ToList().Sum() > this.DefaultPageRowCount)
+                {
+                    column1BookList.RemoveAt(column1BookList.Count - 1);
+                }
 
-                //    BusBooking _booking = linkedListNode.Value;
-                //    // mark the first displaying node
-                //    if (i == 0) this.firstDisplayBookingNode = _booking;
+                this.lastDisplayBookingNode = column1BookList[column1BookList.Count - 1];
 
-                //    // the node is repeat, means the list was looped through
-                //    // break the display for loop
-                //    if (i!=0 && _booking == this.firstDisplayBookingNode) break; 
-
-                //    if (column1BookList.Count < this.DefaultPageRowCount) {
-                //        column1BookList.Add(_booking);
-                //    } 
-
-                //    // mark the last displaying node
-                //    this.lastDisplayBookingNode = _booking;
-                //}
             }
 
-            //this.BusBookingColumnDisplay.Add(1, column1BookList);
-            //this.BusBookingColumnDisplay.Add(2, column2BookList);
-
             this.BusBookingColumnDisplay[1] = column1BookList;
-            //this.BusBookingColumnDisplay[2] = column2BookList;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

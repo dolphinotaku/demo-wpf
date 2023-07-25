@@ -1,4 +1,5 @@
 ﻿using demo_mah_wpf.Entity;
+using demo_mah_wpf.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +14,8 @@ namespace demo_mah_wpf
     {
         protected WalkInBooking firstDisplayBookingNode;
         protected WalkInBooking lastDisplayBookingNode;
+        protected VoiceService voiceService;
+        protected AutoMapperService automapperService;
 
         private WalkInBookingPagination _TaskCollection1;
         public WalkInBookingPagination WalkInBookingPagination
@@ -28,11 +31,15 @@ namespace demo_mah_wpf
         public IEnumerable<WalkInBooking> taskQueryList;
 
 
-        public WalkInBookingViewModel() : base()
+        public WalkInBookingViewModel(IAutoMapperService automapperService) : base()
         {
             this.taskQueryList = new List<WalkInBooking>();
             this.WalkInBookingPagination = new WalkInBookingPagination();
-            //this.TaskCollectionPagination = new ObservableCollection<WalkInBooking>();
+
+            //this.voiceService = voiceService.GetInstance();
+            this.automapperService = automapperService.GetInstance();
+
+            this.RefaultRefreshDataInEverySecond = 5;
 
             //this.WalkInBookingPagination.Add(new WalkInBooking("Laundry", "Do my Laundry", 2, TaskType.Home));
             //this.WalkInBookingPagination.Add(new WalkInBooking("Email", "Email clients", 1, TaskType.Work));
@@ -54,7 +61,7 @@ namespace demo_mah_wpf
 
         public override async void CustomDataTimerTick(object sender, EventArgs args)
         {
-            if (this.currentSecond % this.RefaultRefreshDataInEverySecond != 0) return;
+            //if (this.currentSecond % this.RefaultRefreshDataInEverySecond != 0) return;
 
             //this.WalkInBookingPagination.Clear();
             IEnumerable<WalkInBooking> _taskDataResult = (IEnumerable<WalkInBooking>)await this.GetAllData();
@@ -76,10 +83,92 @@ namespace demo_mah_wpf
             await Task.Delay(0);
             return;
         }
+        public override void CustomPageTimerTick(object sender, EventArgs args)
+        {
+            this.WalkInBookingPagination.RefreshDisplayColumn();
+        }
+        private List<WalkInBooking> dummyData30List3 = new List<WalkInBooking>()
+        {
+            new WalkInBooking("W001", "S1", 2, TaskType.Home),
+            new WalkInBooking("W002", "S2", 2, TaskType.Home),
+            new WalkInBooking("W003", "S3", 2, TaskType.Home),
+            new WalkInBooking("W004", "S4", 2, TaskType.Home),
+            new WalkInBooking("W005", "S5", 2, TaskType.Home),
+            new WalkInBooking("W006", "S6", 2, TaskType.Home),
+            new WalkInBooking("W007", "S7", 2, TaskType.Home),
+            new WalkInBooking("W008", "S8", 2, TaskType.Home),
+            new WalkInBooking("W009", "S9", 2, TaskType.Home),
+            new WalkInBooking("W010", "S10", 2, TaskType.Home),
+            new WalkInBooking("W011", "S11", 2, TaskType.Home),
+            new WalkInBooking("W012", "S12", 2, TaskType.Home),
+            new WalkInBooking("W013", "S13", 2, TaskType.Home),
+            new WalkInBooking("W014", "S14", 2, TaskType.Home),
+            new WalkInBooking("W015", "S15", 2, TaskType.Home),
+            new WalkInBooking("W016", "S16", 2, TaskType.Home),
+            new WalkInBooking("W017", "S17", 2, TaskType.Home),
+            new WalkInBooking("W018", "S18", 2, TaskType.Home),
+            new WalkInBooking("W019", "S19", 2, TaskType.Home),
+            new WalkInBooking("W020", "S20", 2, TaskType.Home),
+            new WalkInBooking("W021", "S21", 2, TaskType.Home),
+            new WalkInBooking("W022", "S22", 2, TaskType.Home),
+            new WalkInBooking("W023", "S23", 2, TaskType.Home),
+            new WalkInBooking("W024", "S24", 2, TaskType.Home),
+            new WalkInBooking("W025", "S25", 2, TaskType.Home),
+            new WalkInBooking("W026", "S26", 2, TaskType.Home),
+        };
+
+        private List<WalkInBooking> dummyData20List3 = new List<WalkInBooking>()
+        {
+            new WalkInBooking("W041", "S1", 2, TaskType.Home),
+            new WalkInBooking("W042", "S2", 2, TaskType.Home),
+            new WalkInBooking("W043", "S3", 2, TaskType.Home),
+            new WalkInBooking("W044", "S4", 2, TaskType.Home),
+            new WalkInBooking("W045", "S5", 2, TaskType.Home),
+            new WalkInBooking("W046", "S6", 2, TaskType.Home),
+            new WalkInBooking("W047", "S7", 2, TaskType.Home),
+            new WalkInBooking("W048", "S8", 2, TaskType.Home),
+            new WalkInBooking("W049", "S9", 2, TaskType.Home),
+            new WalkInBooking("W050", "S10", 2, TaskType.Home),
+            new WalkInBooking("W051", "S11", 2, TaskType.Home),
+            new WalkInBooking("W052", "S12", 2, TaskType.Home),
+            new WalkInBooking("W053", "S13", 2, TaskType.Home),
+            new WalkInBooking("W054", "S14", 2, TaskType.Home),
+            new WalkInBooking("W055", "S15", 2, TaskType.Home),
+            new WalkInBooking("W056", "S16", 2, TaskType.Home),
+            new WalkInBooking("W057", "S17", 2, TaskType.Home),
+            new WalkInBooking("W058", "S18", 2, TaskType.Home),
+            new WalkInBooking("W059", "S19", 2, TaskType.Home),
+            new WalkInBooking("W060", "S20", 2, TaskType.Home),
+        };
+
+        private List<WalkInBooking> dummyData10List3 = new List<WalkInBooking>()
+        {
+            new WalkInBooking("W061", "S1", 2, TaskType.Home),
+            new WalkInBooking("W062", "S2", 2, TaskType.Home),
+            new WalkInBooking("W063", "S3", 2, TaskType.Home),
+            new WalkInBooking("W064", "S4", 2, TaskType.Home),
+            new WalkInBooking("W065", "S5", 2, TaskType.Home),
+        };
 
         public Task<List<WalkInBooking>> GetAllData()
         {
             List<WalkInBooking> _taskList = new List<WalkInBooking>();
+            // test scenarios
+            DateTime dateTime = DateTime.Now;
+            if (dateTime.Second == 0)
+            {
+                _taskList = this.dummyData20List3;
+            }
+            else if (dateTime.Second == 20)
+            {
+                _taskList = this.dummyData10List3;
+            }
+            else if (dateTime.Second == 30)
+            {
+                _taskList = this.dummyData30List3;
+            }
+            return Task.FromResult<List<WalkInBooking>>(_taskList);
+
             Char[] ticketType = new Char[] { 'W' };
             Char[] roomType = new Char[] { ' ', 'S' };
             for (int i = 1; i <= 12; i++)

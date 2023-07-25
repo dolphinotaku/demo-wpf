@@ -17,7 +17,7 @@ namespace demo_mah_wpf
             {
                 var taskitem = (BusBooking)item;
                 var window = Application.Current.MainWindow;
-                if (!string.IsNullOrEmpty(taskitem.Description) && taskitem.Description.Length>30)
+                if (!string.IsNullOrEmpty(taskitem.Description) && taskitem.Description.Length >= 45)
                     return
                         window.FindResource("DoubleHeightBusBookingTemplate") as DataTemplate;
                 return

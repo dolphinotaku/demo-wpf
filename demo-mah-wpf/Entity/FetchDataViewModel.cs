@@ -17,7 +17,7 @@ namespace demo_mah_wpf.Entity
         protected int currentSecond = -1;
 
         private int _defaultRefreshDataInEverySecond; // define how long will refresh data
-        protected int RefaultRefreshDataInEverySecond { get { return this._defaultRefreshDataInEverySecond; } }
+        protected int RefaultRefreshDataInEverySecond { get { return this._defaultRefreshDataInEverySecond; } set { this._defaultRefreshDataInEverySecond = value; } }
         protected int RefreshDataCountdownInSecond // get countdown number of how long take to refresh data
         {
             get
@@ -64,12 +64,14 @@ namespace demo_mah_wpf.Entity
             this._defaultRefreshPageInEverySecond = 10; // define how long will refresh display
             // to do, read config file to get the above value
 
+            // set all interval starat from 30 seconds to make all view refresh data at the same time
+
             refreshDataTimer.Interval = TimeSpan.FromSeconds(this.defaultDataTimeInterval);
             refreshDataTimer.Tick += DataTimerTick;
             refreshDataTimer.Start();
 
             refreshPageTimer.Interval = TimeSpan.FromSeconds(this.defaultPageTimeInterval);
-            refreshPageTimer.Tick += DataTimerTick;
+            refreshPageTimer.Tick += PageTimerTick;
             refreshPageTimer.Start();
         }
         private async void DataTimerTick(object sender, EventArgs args)

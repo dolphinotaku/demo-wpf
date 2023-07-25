@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.ComponentModel;
 using demo_mah_wpf.Entity;
 using System.Windows.Threading;
+using demo_mah_wpf.Service;
 
 namespace demo_mah_wpf
 {
@@ -42,15 +43,16 @@ namespace demo_mah_wpf
             }
         }
 
-        
 
-        public ViewModel() : base()
+
+        public ViewModel(IVoiceService voiceService, IAutoMapperService autoMapperService) : base()
         {
+            VoiceService _voiceService = voiceService.GetInstance();
             //BindingOperations.EnableCollectionSynchronization(TaskCollection1, _lock);
 
-            this.CentralBookingViewModel = new CentralBookingViewModel();
-            this.WalkInBookingViewModel = new WalkInBookingViewModel();
-            this.BusBookingViewModel = new BusBookingViewModel();
+            this.CentralBookingViewModel = new CentralBookingViewModel(_voiceService, autoMapperService);
+            this.WalkInBookingViewModel = new WalkInBookingViewModel(autoMapperService);
+            this.BusBookingViewModel = new BusBookingViewModel(autoMapperService);
 
             // use async in .net framework 4.7.2
             // otherwise, complie error: async streams is not available in 7.3
@@ -60,5 +62,6 @@ namespace demo_mah_wpf
             //    var getTaskResult = this.GetAllTasks();
             //});
         }
+
     }
 }

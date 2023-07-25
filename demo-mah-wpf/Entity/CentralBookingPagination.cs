@@ -30,8 +30,6 @@ namespace demo_mah_wpf.Entity
             this._centralBookingColumnDisplay = new ObservableConcurrentDictionary<int, List<CentralBooking>>();
             this.firstDisplayBookingNode = new CentralBooking();
             this.lastDisplayBookingNode = new CentralBooking();
-
-
         }
         public int CurrentPage
         {
@@ -97,19 +95,18 @@ namespace demo_mah_wpf.Entity
             if (!this._tupleList.Contains(_booking))
             {
                 this._tupleList.AddFirst(_booking);
-                this.RefreshDisplayColumn();
+                //this.RefreshDisplayColumn();
             }
         }
         public void AddBookingRange(List<CentralBooking> _bookingList)
         {
-            foreach(CentralBooking _booking in _bookingList)
+            foreach (CentralBooking _booking in _bookingList)
             {
                 if (!this._tupleList.Contains(_booking))
                     this._tupleList.AddFirst(_booking);
             }
 
-            this.RefreshDisplayColumn();
-            //this._tupleList.AddRange(_bookingList);
+            //this.RefreshDisplayColumn();
         }
         public void RemoveBooking(CentralBooking _booking)
         {
@@ -118,6 +115,8 @@ namespace demo_mah_wpf.Entity
         public void ClearBookingList()
         {
             this._tupleList.Clear();
+            this.firstDisplayBookingNode = new CentralBooking();
+            this.lastDisplayBookingNode = new CentralBooking();
         }
 
         public void RefreshDisplayColumn()
@@ -133,7 +132,7 @@ namespace demo_mah_wpf.Entity
             // add empty to the list, to expand the block on the layout
             if (this.TupleList == null || this.TupleList.Count == 0)
             {
-                for(int i = 0; i<6; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     CentralBooking _booking1 = new CentralBooking();
                     CentralBooking _booking2 = new CentralBooking();
@@ -148,11 +147,30 @@ namespace demo_mah_wpf.Entity
 
                 for (int i = 0; i < this.DefaultPageRowCount * this.DefaultPageColumnCount; i++)
                 {
-                    LinkedListNode<CentralBooking> linkedListNode = this.TupleList.Find(this.lastDisplayBookingNode);
-                        if (linkedListNode == null)
+                    LinkedListNode<CentralBooking> linkedListNode = null;
+                    if (!this.lastDisplayBookingNode.IsEmpty())
+                    {
+                        linkedListNode = this.TupleList.FindLast(this.lastDisplayBookingNode);
+                    }
+                    if (linkedListNode == null)
+                    {
+                        linkedListNode = this.TupleList.First;
+                    }
+                    else
+                    {
+                        if (linkedListNode == this.TupleList.Last && i == 0)
+                        {
                             linkedListNode = this.TupleList.First;
-                        else 
+                        }
+                        else if (linkedListNode == this.TupleList.Last && i >= 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
                             linkedListNode = linkedListNode.Next;
+                        }
+                    }
 
                     CentralBooking _booking = linkedListNode.Value;
                     // mark the first displaying node
@@ -160,11 +178,14 @@ namespace demo_mah_wpf.Entity
 
                     // the node is repeat, means the list was looped through
                     // break the display for loop
-                    if (i!=0 && _booking == this.firstDisplayBookingNode) break; 
+                    if (i != 0 && _booking == this.firstDisplayBookingNode) break;
 
-                    if (column1BookList.Count < this.DefaultPageRowCount) {
+                    if (column1BookList.Count < this.DefaultPageRowCount)
+                    {
                         column1BookList.Add(_booking);
-                    } else if (column2BookList.Count < this.DefaultPageRowCount) {
+                    }
+                    else if (column2BookList.Count < this.DefaultPageRowCount)
+                    {
                         column2BookList.Add(_booking);
                     }
 

@@ -1,4 +1,5 @@
 ﻿using demo_mah_wpf.Entity;
+using demo_mah_wpf.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +14,8 @@ namespace demo_mah_wpf
     {
         protected BusBooking firstDisplayBookingNode;
         protected BusBooking lastDisplayBookingNode;
+        protected VoiceService voiceService;
+        protected AutoMapperService automapperService;
 
         private BusBookingPagination _TaskCollection1;
         public BusBookingPagination BusBookingPagination
@@ -28,11 +31,15 @@ namespace demo_mah_wpf
         public IEnumerable<BusBooking> taskQueryList;
 
 
-        public BusBookingViewModel() : base()
+        public BusBookingViewModel(IAutoMapperService automapperService) : base()
         {
             this.taskQueryList = new List<BusBooking>();
             this.BusBookingPagination = new BusBookingPagination();
-            //this.TaskCollectionPagination = new ObservableCollection<BusBooking>();
+
+            //this.voiceService = voiceService.GetInstance();
+            this.automapperService = automapperService.GetInstance();
+
+            this.RefaultRefreshDataInEverySecond = 5;
 
             //this.BusBookingPagination.Add(new BusBooking("Laundry", "Do my Laundry", 2, TaskType.Home));
             //this.BusBookingPagination.Add(new BusBooking("Email", "Email clients", 1, TaskType.Work));
@@ -76,41 +83,46 @@ namespace demo_mah_wpf
             await Task.Delay(0);
             return;
         }
+        public override void CustomPageTimerTick(object sender, EventArgs args)
+        {
+            this.BusBookingPagination.RefreshDisplayColumn();
+        }
 
         public Task<List<BusBooking>> GetAllData()
         {
             List<BusBooking> _taskList = new List<BusBooking>();
             Char[] ticketType = new Char[] { 'W' };
-            Char[] roomType = new Char[] { ' ', 'P' };
+            Char[] roomType = new Char[] { 'P' };
+            Char[] classType = new Char[] { 'A', 'B', 'C', 'D', 'E' };
             int[] minutes = new int[] { 0, 30 };
             string[] shttleBus = new string[]
             {
                 "ABCDEFGHIJ0123456789ABCDEFGHIJ0123456789ABCDEFGHIJ0123456789ABCDEFGHIJ0123456789",
-"Bonham Road Government Primary School",
-"Kau Yan School",
-"King's College Old Boys' Association Primary School",
-"King's College Old Boys' Association Primary School No.2",
-"St. Charles School",
-"St. Clare's Primary School",
-"St. Louis School (Primary Section)",
-"St. Stephen's Girls' Primary School",
-"St. Paul's Primary School"
+"Bonham Road Government Primary School 般咸道官立小學",
+"Kau Yan School 救恩學校",
+"King's College Old Boys' Association Primary School 英皇書院同學會小學",
+"King's College Old Boys' Association Primary School No.2 英皇書院同學會小學第二校",
+"St. Charles School 聖嘉祿學校",
+"St. Clare's Primary School 聖嘉勒小學",
+"St. Louis School (Primary Section) 聖類斯中學(小學部)",
+"St. Stephen's Girls' Primary School 聖士提反女子中學附屬小學",
+"St. Paul's Primary School 聖保祿天主教小學"
             };
 
             for (int i = 1; i <= 10; i++)
             {
                 var _ticketNum = this.GetRandomInt(1, 99).ToString("D3");
                 var _roomNum = this.GetRandomInt(1, 30).ToString();
-                TimeSpan timeSpan = new TimeSpan(this.GetRandomInt(1, 24), minutes[this.GetRandomInt(0,1)], 0);
+                TimeSpan timeSpan = new TimeSpan(this.GetRandomInt(1, 24), minutes[this.GetRandomInt(0, 1)], 0);
                 var _datetime = new DateTime();
                 _datetime = _datetime + timeSpan;
 
                 _taskList.Add(new BusBooking(
                     _datetime,
-                    string.Format("{0}{1}",
-                        shttleBus[this.GetRandomInt(0, shttleBus.Length)], _ticketNum),
-                    string.Format("{0}{1}",
-                        roomType[this.GetRandomInt(0, roomType.Length)], _roomNum),
+                    string.Format("{0}",
+                        shttleBus[this.GetRandomInt(0, shttleBus.Length)]),
+                    string.Format("P.{0}{1}",
+                        this.GetRandomInt(1, 6), classType[this.GetRandomInt(0, classType.Length)]),
                     2, TaskType.Home));
             }
 
