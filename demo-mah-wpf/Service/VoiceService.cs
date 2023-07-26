@@ -65,13 +65,13 @@ namespace demo_mah_wpf.Service
             this.speaker.SpeakStarted += new EventHandler<SpeakStartedEventArgs>(StartedSpeaking);
             this.speaker.SpeakCompleted += new EventHandler<SpeakCompletedEventArgs>(FinishedSpeaking);
 
-            this.Eng_Cubicle_Template = "Ticket number {0} please go to zone {1} at the outdoor area";
-            this.ZH_HK_Cubicle_Template = "醜号 {0} 請到戶外燒烤場 {1} 號燒烤爐";
-            this.ZH_CN_Cubicle_Template = "筹號 {0} 请到戶外燒烤場 {1} 号烧烤炉";
+            this.Eng_Cubicle_Template = "Hello Ticket number {0} please go to zone {1} at the outdoor area";
+            this.ZH_HK_Cubicle_Template = "你好醜号 {0} 請到 {1}";
+            this.ZH_CN_Cubicle_Template = "你好筹號 {0} 请到 {1}";
 
-            this.Eng_Staff_Template = "Ticket number {0} please go to zone {1} at the indoor area";
-            this.ZH_HK_Staff_Template = "醜号 {0} 請到室內燒烤場 {1} 號烧烤炉";
-            this.ZH_CN_Staff_Template = "筹號 {0} 请到室内烧烤场 {1} 号烧烤炉";
+            this.Eng_Staff_Template = "Hello Ticket number {0} please go to zone {1} at the indoor area";
+            this.ZH_HK_Staff_Template = "你好醜号 {0} 請到 {1}";
+            this.ZH_CN_Staff_Template = "你好筹號 {0} 请到 {1}";
         }
         private async void PlayVoiceTimerTick(object sender, EventArgs args)
         {
