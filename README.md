@@ -46,3 +46,26 @@ The facility staff and cleaner should clean, prepare and set up a fire depending
 - For the C(Client) type, please clean and set up the pit fire
 - For the S(Staff) type, please clean and set up the Iron Grill Plate
 - For the W(Walk-in), having the lower priority, please clean and set up the pit fire 
+
+
+# Dependence
+## NuGet
+- NuGet\Install-Package AutoMapper -Version 10.1.1
+>
+> // this version is for the .Net Framework, use the latest one for .Net Core
+>
+- NuGet\Install-Package Serilog -Version 3.0.1
+- NuGet\Install-Package Serilog.Sinks.Debug -Version 2.0.0
+- NuGet\Install-Package Serilog.Sinks.File -Version 5.0.0
+- NuGet\Install-Package Unity -Version 5.11.10
+- NuGet\Install-Package Microsoft.Bcl.AsyncInterfaces -Version 7.0.0
+>
+> Microsoft.Bcl.AsyncInterfaces for
+> // use async in .net framework 4.7.2
+> // otherwise, complie error: async streams is not available in 7.3
+> // https://bartwullems.blogspot.com/2020/01/asynchronous-streams-using.html
+>
+
+
+## Other Projects
+[Sample Human Voice Audio](https://github.com/exotel/ivr-audio-prompts)
