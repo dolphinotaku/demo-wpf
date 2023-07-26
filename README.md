@@ -4,8 +4,10 @@ kick start for WPF development
 # Background
 This project help me to get used to WPF development, for the one who is new to WPF, I put all the learning materials, POC samples and coding practices in this [project's WIKI](https://github.com/dolphinotaku/demo-wpf/wiki) as an easy reference.
 
+To help to push me forward, I simulated a real case.
+
 # Scope
-There is a barbecue site managed by a Club House.
+Scope described the simulated real case. There is a barbecue site managed by a Club House.
 This is a front-end program that will display barbecue booking data retrieved through WebAPI, this display system serves three roles of the user.
 - clubhouse admin staff
 - clubhouse facility staff, cleaner
