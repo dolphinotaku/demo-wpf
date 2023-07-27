@@ -50,12 +50,13 @@ namespace demo_mah_wpf
         {
         }
 
-        public BusBooking(DateTime bookDateTime, string description, string roomNum, int priority, TaskType type) : base()
+        public BusBooking(DateTime bookDateTime, string description, string ticketNum, string roomNum, int priority, TaskType type) : base()
         {
             _bookDateTime = bookDateTime;
             _description = description;
             _roomNum = roomNum;
             _priority = priority;
+            _ticketNum = ticketNum;
             _type = type;
 
             this.RowHeight = 0;

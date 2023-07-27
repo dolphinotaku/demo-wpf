@@ -1,12 +1,10 @@
 ﻿using demo_mah_wpf.Entity;
+using demo_mah_wpf.Master;
 using demo_mah_wpf.Service;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 
 namespace demo_mah_wpf
 {
@@ -14,8 +12,8 @@ namespace demo_mah_wpf
     {
         protected BusBooking firstDisplayBookingNode;
         protected BusBooking lastDisplayBookingNode;
-        protected VoiceService voiceService;
-        protected AutoMapperService automapperService;
+        protected IVoiceService _voiceService;
+        protected IAutoMapperService _automapperService;
 
         private BusBookingPagination _TaskCollection1;
         public BusBookingPagination BusBookingPagination
@@ -24,68 +22,53 @@ namespace demo_mah_wpf
             set
             {
                 _TaskCollection1 = value;
-                this.SetProperty(ref _TaskCollection1, value, () => BusBookingPagination);
+                SetProperty(ref _TaskCollection1, value, () => BusBookingPagination);
             }
         }
 
-        public IEnumerable<BusBooking> taskQueryList;
+        public IEnumerable<BusBooking> _taskQueryList;
 
 
-        public BusBookingViewModel(IAutoMapperService automapperService) : base()
+        public BusBookingViewModel(IVoiceService voiceService, IAutoMapperService automapperService) : base()
         {
-            this.taskQueryList = new List<BusBooking>();
-            this.BusBookingPagination = new BusBookingPagination();
+            _taskQueryList = new List<BusBooking>();
+            BusBookingPagination = new BusBookingPagination();
 
-            //this.voiceService = voiceService.GetInstance();
-            this.automapperService = automapperService.GetInstance();
+            _voiceService = voiceService;
+            _automapperService = automapperService;
 
-            this.RefaultRefreshDataInEverySecond = 5;
-
-            //this.BusBookingPagination.Add(new BusBooking("Laundry", "Do my Laundry", 2, TaskType.Home));
-            //this.BusBookingPagination.Add(new BusBooking("Email", "Email clients", 1, TaskType.Work));
-            //this.BusBookingPagination.Add(new BusBooking("Clean", "Clean my office", 3, TaskType.Work));
-            //this.BusBookingPagination.Add(new BusBooking("Dinner", "Get ready for family reunion", 1, TaskType.Home));
-            //this.BusBookingPagination.Add(new BusBooking("Proposals", "Review new budget proposals", 2, TaskType.Work));
-
+            RefaultRefreshDataInEverySecond = 5;
             // create two column
             BusBookingPagination _bookingPage = new BusBookingPagination();
 
             // add empty 6 rows
-            IEnumerable<BusBooking> _taskDataResult = (IEnumerable<BusBooking>)this.CreateEmptyData(6);
+            IEnumerable<BusBooking> _taskDataResult = (IEnumerable<BusBooking>)CreateEmptyData(6);
             List<BusBooking> _taskList = _taskDataResult.ToList();
             _bookingPage.AddBookingRange(_taskList);
-            this.BusBookingPagination = _bookingPage;
+            BusBookingPagination = _bookingPage;
 
-            this.taskQueryList = _taskList;
+            _taskQueryList = _taskList;
         }
 
         public override async void CustomDataTimerTick(object sender, EventArgs args)
         {
-            if (this.currentSecond % this.RefaultRefreshDataInEverySecond != 0) return;
+            if (currentSecond % RefaultRefreshDataInEverySecond != 0) return;
 
-            //this.BusBookingPagination.Clear();
-            IEnumerable<BusBooking> _taskDataResult = (IEnumerable<BusBooking>)await this.GetAllData();
+            //BusBookingPagination.Clear();
+            IEnumerable<BusBooking> _taskDataResult = (IEnumerable<BusBooking>)await GetAllData();
             List<BusBooking> _bookingList = _taskDataResult.ToList();
             if (_bookingList != null && _bookingList.Count > 0)
             {
-                this.BusBookingPagination.ClearBookingList();
-                this.BusBookingPagination.AddBookingRange(_bookingList);
-                //for (int i = 0; i < _bookingList.Count; i++)
-                //{
-                //this.BusBookingPagination.Add(new BusBooking(string.Format("Development {0}", i), string.Format("Write a WPF program {0}", DateTime.Now.ToString()), 2, TaskType.Home));
-                //var _task = _bookingList[i];
-                //this.BusBookingPagination[i].TaskName = _task.TaskName;
-                //this.BusBookingPagination[i].Description = _task.Description;
-                //this.BusBookingPagination[i].Priority = _task.Priority;
-                //this.BusBookingPagination[i].TaskType = _task.TaskType;
-                //}
+                BusBookingPagination.ClearBookingList();
+                BusBookingPagination.AddBookingRange(_bookingList);
+                var voiceList = _automapperService.Instance.Map<List<BusBooking>, List<VoiceAnnouncement>>(_bookingList);
+                _voiceService.AddRange(voiceList);
             }
-            await Task.Delay(0);
             return;
         }
         public override void CustomPageTimerTick(object sender, EventArgs args)
         {
-            this.BusBookingPagination.RefreshDisplayColumn();
+            BusBookingPagination.RefreshDisplayColumn();
         }
 
         public Task<List<BusBooking>> GetAllData()
@@ -111,18 +94,18 @@ namespace demo_mah_wpf
 
             for (int i = 1; i <= 10; i++)
             {
-                var _ticketNum = this.GetRandomInt(1, 99).ToString("D3");
-                var _roomNum = this.GetRandomInt(1, 30).ToString();
-                TimeSpan timeSpan = new TimeSpan(this.GetRandomInt(1, 24), minutes[this.GetRandomInt(0, 1)], 0);
+                var _ticketNum = GetRandomInt(1, 99).ToString("D3");
+                var _roomNum = GetRandomInt(1, 30).ToString();
+                TimeSpan timeSpan = new TimeSpan(GetRandomInt(1, 24), minutes[GetRandomInt(0, 1)], 0);
                 var _datetime = new DateTime();
                 _datetime = _datetime + timeSpan;
 
                 _taskList.Add(new BusBooking(
                     _datetime,
                     string.Format("{0}",
-                        shttleBus[this.GetRandomInt(0, shttleBus.Length)]),
+                        shttleBus[GetRandomInt(0, shttleBus.Length)]),
                     string.Format("P.{0}{1}",
-                        this.GetRandomInt(1, 6), classType[this.GetRandomInt(0, classType.Length)]),
+                        GetRandomInt(1, 6), classType[GetRandomInt(0, classType.Length)]),
                     2, TaskType.Home));
             }
 

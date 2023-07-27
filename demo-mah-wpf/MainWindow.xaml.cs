@@ -29,8 +29,12 @@ namespace demo_mah_wpf
     {
         public MainWindow(ViewModel ViewModel)
         {
-
+#if DEBUG
             Log.Logger = new LoggerConfiguration()
+                        .WriteTo.Debug()
+                        .CreateLogger();
+#else
+             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.File("logs/log-.txt",
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss}]",
@@ -40,6 +44,7 @@ namespace demo_mah_wpf
                     retainedFileCountLimit: 10,
                     fileSizeLimitBytes: 10 * 1024)
                 .CreateLogger();
+#endif
 
             try
             {

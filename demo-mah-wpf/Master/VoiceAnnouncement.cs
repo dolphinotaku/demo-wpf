@@ -1,112 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace demo_mah_wpf.Master
+﻿namespace demo_mah_wpf.Master
 {
     public class VoiceAnnouncement
     {
-        protected SpeakLanguage _speakLanguage;
-        protected int _speakRate; // speed of voice
-        protected string _eng_text;
-        protected string _zh_hk_text;
-        protected string _zh_cn_text;
-        protected string _ticketNum;
-        protected string _roomNum;
+        public SpeakLanguage SpeakLanguage { get; set; }
 
-        public SpeakLanguage SpeakLanguage
-        {
-            get
-            {
-                return this._speakLanguage;
-            }
-            set
-            {
-                this._speakLanguage = value;
-            }
-        }
-        public int SpeakRate
-        {
-            get
-            {
-                return this._speakRate;
-            }
-            set
-            {
-                this._speakRate = value;
-            }
-        }
-        public string Eng_Text
-        {
-            get
-            {
-                return this._eng_text;
-            }
-            set
-            {
-                this._eng_text = value;
-            }
-        }
-        public string ZH_HK_Text
-        {
-            get
-            {
-                return this._zh_hk_text;
-            }
-            set
-            {
-                this._zh_hk_text = value;
-            }
-        }
-        public string ZH_CN_Text
-        {
-            get
-            {
-                return this._zh_cn_text;
-            }
-            set
-            {
-                this._zh_cn_text = value;
-            }
-        }
+        public int SpeakRate { get; set; }
+        public string EngText { get; set; }
+        public string ZhHkText { get; set; }
+        public string ZhCnText { get; set; }
 
-        public string TicketNum
-        {
-            get { return _ticketNum; }
-            set
-            {
-                _ticketNum = value;
-            }
-        }
-        public string RoomNum
-        {
-            get { return _roomNum; }
-            set
-            {
-                _roomNum = value;
-            }
-        }
+        public string TicketNum { get; set; }
+        public string RoomNum { get; set; }
         public VoiceAnnouncement()
         {
-            this.SpeakLanguage = SpeakLanguage.English;
-            this._eng_text = "Testing 1 2 3, testing completed.";
-            this.SpeakRate = 1;
+            SpeakLanguage = SpeakLanguage.English;
+            EngText = "Testing 1 2 3, testing completed.";
+            SpeakRate = 1;
         }
-        public VoiceAnnouncement(SpeakLanguage speakLanguage, string _ticketNum, string _roomNum) : base()
+        public VoiceAnnouncement(SpeakLanguage speakLanguage, string ticketNum, string roomNum)
         {
-            this.SpeakLanguage = speakLanguage;
-            this.TicketNum = _ticketNum;
-            this.RoomNum = _roomNum;
-            this.SpeakRate = 1;
+            SpeakLanguage = speakLanguage;
+            TicketNum = ticketNum;
+            RoomNum = roomNum;
+            SpeakRate = 1;
         }
-        public VoiceAnnouncement(SpeakLanguage speakLanguage, string _ticketNum, string _roomNum, int speakRate) : base()
+        public VoiceAnnouncement(SpeakLanguage speakLanguage, string ticketNum, string roomNum, int speakRate)
         {
-            this.SpeakLanguage = speakLanguage;
-            this.TicketNum = _ticketNum;
-            this.RoomNum = _roomNum;
-            this.SpeakRate = speakRate;
+            SpeakLanguage = speakLanguage;
+            TicketNum = ticketNum;
+            RoomNum = roomNum;
+            SpeakRate = speakRate;
         }
         public string SpeakLanguageToString()
         {
@@ -114,14 +37,14 @@ namespace demo_mah_wpf.Master
         }
         public string SpeakLanguageToString(SpeakLanguage speakLanguage)
         {
-            string _languageName = string.Empty;
+            string languageName = string.Empty;
             switch (speakLanguage)
             {
-                case SpeakLanguage.English: _languageName = "Microsoft Zira Desktop"; break;
-                case SpeakLanguage.ChineseTraditional: _languageName = "Microsoft Tracy Desktop"; break;
-                case SpeakLanguage.ChineseSimplified: _languageName = "Microsoft Huihui Desktop"; break;
+                case SpeakLanguage.English: languageName = "Microsoft Zira Desktop"; break;
+                case SpeakLanguage.ChineseTraditional: languageName = "Microsoft Tracy Desktop"; break;
+                case SpeakLanguage.ChineseSimplified: languageName = "Microsoft Huihui Desktop"; break;
             }
-            return _languageName;
+            return languageName;
         }
     }
 

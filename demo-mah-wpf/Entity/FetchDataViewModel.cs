@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -74,7 +71,7 @@ namespace demo_mah_wpf.Entity
             refreshPageTimer.Tick += PageTimerTick;
             refreshPageTimer.Start();
         }
-        private async void DataTimerTick(object sender, EventArgs args)
+        private void DataTimerTick(object sender, EventArgs args)
         {
             this.currentSecond += 1;
             this.CustomDataTimerTick(sender, args);
@@ -83,7 +80,7 @@ namespace demo_mah_wpf.Entity
         {
             await Task.Delay(0);
         }
-        private async void PageTimerTick(object sender, EventArgs args)
+        private void PageTimerTick(object sender, EventArgs args)
         {
             //this.currentSecond += 1;
             this.CustomPageTimerTick(sender, args);
