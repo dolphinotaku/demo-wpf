@@ -12,7 +12,7 @@ namespace demo_mah_wpf.Service
     public class VoiceService : IVoiceService
     {
         protected readonly System.Timers.Timer announceTimer;
-        protected readonly int defaultDataTimeInterval = 5;
+        protected readonly int defaultDataTimeInterval = 5000;
 
         private List<VoiceAnnouncement> announcementQueue = new List<VoiceAnnouncement>();
         public VoiceAnnouncement currentAnnouncement = new VoiceAnnouncement();
@@ -47,7 +47,7 @@ namespace demo_mah_wpf.Service
             get { return this._isCurrentlySpeaking; }
         }
 
-        private static readonly Lazy<VoiceService> lazyAnnounceService = new Lazy<VoiceService>(() => new VoiceService());
+        //private static readonly Lazy<VoiceService> lazyAnnounceService = new Lazy<VoiceService>(() => new VoiceService());
 
         public VoiceService()
         {
@@ -73,65 +73,73 @@ namespace demo_mah_wpf.Service
             this.ZH_HK_Staff_Template = "你好醜号 {0} 請到 {1}";
             this.ZH_CN_Staff_Template = "你好筹號 {0} 请到 {1}";
         }
-        private async void PlayVoiceTimerTick(object sender, EventArgs args)
+        private void PlayVoiceTimerTick(object sender, EventArgs args)
         {
+            announceTimer.Elapsed -= PlayVoiceTimerTick;
             var msg = string.Format("PlayVoiceTimerTick() - execute - every {0} seconds", this.defaultDataTimeInterval);
             Log.Debug(msg);
 
             var _announcementQueueList = this.GetInstance().announcementQueue;
-            if (_announcementQueueList == null || _announcementQueueList.Count <= 0) return;
-            if (this.GetInstance()._isCurrentlySpeaking) return;
+            if (_announcementQueueList == null || _announcementQueueList.Count <= 0)
+            {
+                announceTimer.Elapsed += PlayVoiceTimerTick;
+                return;
+            }
 
+
+            if (this.GetInstance()._isCurrentlySpeaking)
+            {
+                announceTimer.Elapsed += PlayVoiceTimerTick;
+                return;
+            }
 
             // use task to wrap SpeechSynthesizer
             // force it running in async, otherwise the screen will freeze when speak
-            var task = Task.Factory.StartNew(async () =>
-            {
-                Log.Debug(string.Format("PlayVoiceTimerTick() - task - start"));
-                SpeechSynthesizer speech = this.GetInstance().speaker;
-                this.StartedSpeaking_2();
+            Log.Debug(string.Format("PlayVoiceTimerTick() - task - start"));
+            SpeechSynthesizer speech = this.GetInstance().speaker;
+            this.StartedSpeaking_2();
 
-                //VoiceAnnouncement _currentAnnouncement = _announcementQueueList[0];
-                //do
-                //{
-                Log.Debug(string.Format("PlayVoiceTimerTick() - task - get index 0 announcement"));
-                VoiceAnnouncement _currentAnnouncement = _announcementQueueList[0];
-                this.currentAnnouncement = _currentAnnouncement;
-                // remove element after play voice
-                _announcementQueueList.RemoveAt(0);
+            //VoiceAnnouncement _currentAnnouncement = _announcementQueueList[0];
+            //do
+            //{
+            Log.Debug(string.Format("PlayVoiceTimerTick() - task - get index 0 announcement"));
+            VoiceAnnouncement _currentAnnouncement = _announcementQueueList[0];
+            this.currentAnnouncement = _currentAnnouncement;
+            // remove element after play voice
+            _announcementQueueList.RemoveAt(0);
 
-                speech.Rate = 1;
+            speech.Rate = 1;
 
-                //Thread t = new Thread(new ThreadStart(()=> PlayVoices(speech, _currentAnnouncement)));
-                //t.Start();
+            //Thread t = new Thread(new ThreadStart(()=> PlayVoices(speech, _currentAnnouncement)));
+            //t.Start();
 
-                //Task playEngTask = this.PlayVoices(speech, _currentAnnouncement);
-                //Prompt toast = Task.FromResult(playEngTask.Result);
+            //Task playEngTask = this.PlayVoices(speech, _currentAnnouncement);
+            //Prompt toast = Task.FromResult(playEngTask.Result);
 
-                //SpeechSynthesizer synth = new SpeechSynthesizer();
-                //synth.SelectVoice(this.SpeakLanguageToString(SpeakLanguage.English));
-                //synth.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Senior);
-                //synth.SpeakAsync("Every night in my dreams");
+            //SpeechSynthesizer synth = new SpeechSynthesizer();
+            //synth.SelectVoice(this.SpeakLanguageToString(SpeakLanguage.English));
+            //synth.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Senior);
+            //synth.SpeakAsync("Every night in my dreams");
 
-                //await this.PlayVoices(speech, _currentAnnouncement);
-                //this.PlayVoices2(speech, _currentAnnouncement);
+            //await this.PlayVoices(speech, _currentAnnouncement);
+            //this.PlayVoices2(speech, _currentAnnouncement);
 
-                speech.Rate = _currentAnnouncement.SpeakRate;
-                speech.SelectVoice(this.SpeakLanguageToString(SpeakLanguage.ChineseTraditional));
-                speech.Speak(_currentAnnouncement.ZH_HK_Text);
+            //speech.Rate = _currentAnnouncement.SpeakRate;
+            //speech.SelectVoice(this.SpeakLanguageToString(SpeakLanguage.ChineseTraditional));
+            //speech.SpeakAsync(_currentAnnouncement.ZH_HK_Text);
 
-                speech.Rate = _currentAnnouncement.SpeakRate;
-                speech.SelectVoice(this.SpeakLanguageToString(SpeakLanguage.English));
-                speech.Speak(_currentAnnouncement.Eng_Text);
+            speech.Rate = _currentAnnouncement.SpeakRate;
+            speech.SelectVoice(this.SpeakLanguageToString(SpeakLanguage.English));
+            speech.SpeakAsync(_currentAnnouncement.Eng_Text);
 
-                speech.Rate = _currentAnnouncement.SpeakRate;
-                speech.SelectVoice(this.SpeakLanguageToString(SpeakLanguage.ChineseSimplified));
-                speech.Speak(_currentAnnouncement.ZH_CN_Text);
+            //speech.Rate = _currentAnnouncement.SpeakRate;
+            //speech.SelectVoice(this.SpeakLanguageToString(SpeakLanguage.ChineseSimplified));
+            //speech.SpeakAsync(_currentAnnouncement.ZH_CN_Text);
 
-                this.FinishedSpeaking_2();
-                //} while (_announcementQueueList.Count>0);
-            });
-            await task;
+            this.FinishedSpeaking_2();
+            //} while (_announcementQueueList.Count>0);
+
+            announceTimer.Elapsed += PlayVoiceTimerTick;
         }
 
         private async Task<bool> PlayVoices(SpeechSynthesizer speech, VoiceAnnouncement _currentAnnouncement)
@@ -262,7 +270,7 @@ namespace demo_mah_wpf.Service
         }
         public VoiceService GetInstance()
         {
-            return lazyAnnounceService.Value;
+            return this;
         }
     }
 }
