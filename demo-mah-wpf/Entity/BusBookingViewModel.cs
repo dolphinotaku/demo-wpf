@@ -61,8 +61,9 @@ namespace demo_mah_wpf
             {
                 BusBookingPagination.ClearBookingList();
                 BusBookingPagination.AddBookingRange(_bookingList);
-                var voiceList = _automapperService.Instance.Map<List<BusBooking>, List<VoiceAnnouncement>>(_bookingList);
-                _voiceService.AddRange(voiceList);
+                // temporary disable the VoiceAnnouncement for bus booking area
+                //var voiceList = _automapperService.Instance.Map<List<BusBooking>, List<VoiceAnnouncement>>(_bookingList);
+                //_voiceService.AddRange(voiceList);
             }
             return;
         }

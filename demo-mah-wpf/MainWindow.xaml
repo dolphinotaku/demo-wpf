@@ -30,12 +30,12 @@
             <sys:String>Item #3</sys:String>
         </x:Array>
 
-        <local:NameList x:Key="NameListData"/>
+        <!--<local:NameList x:Key="NameListData"/>-->
 
         <local:BookingPaginationDataTemplateSelector x:Key="MyDataTemplateSelector"/>
         <local:BusBookingPaginationDataTemplateSelector x:Key="BusBookingTemplateSelector"/>
 
-        <local:ViewModel x:Key="MyTodoList"/>
+        <!--<local:ViewModel x:Key="MyTodoList"/>-->
 
         <DataTemplate x:Key="ImportantTaskTemplate">
             <DataTemplate.Resources>

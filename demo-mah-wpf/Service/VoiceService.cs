@@ -82,14 +82,14 @@ namespace demo_mah_wpf.Service
         public void Add(VoiceAnnouncement voiceAnnouncement)
         {
             MergeSpeechOfVoice(voiceAnnouncement);
-            _announcementQueueList.Add(voiceAnnouncement);
+            _announcementQueueList.Insert(0, voiceAnnouncement);
         }
         public void AddRange(List<VoiceAnnouncement> list)
         {
             foreach (VoiceAnnouncement voiceAnnouncement in list)
             {
                 MergeSpeechOfVoice(voiceAnnouncement);
-                _announcementQueueList.Add(voiceAnnouncement);
+                _announcementQueueList.Insert(0, voiceAnnouncement);
             }
         }
 
