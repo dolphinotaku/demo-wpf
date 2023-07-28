@@ -27,7 +27,7 @@ namespace demo_mah_wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(ViewModel ViewModel)
+        public MainWindow(MainViewModel MainViewModel)
         {
 #if DEBUG
             Log.Logger = new LoggerConfiguration()
@@ -55,8 +55,8 @@ namespace demo_mah_wpf
 
                 this.DisplayCurrentDateTime();
 
-                //this.DataContext = new ViewModel();
-                this.DataContext = ViewModel;
+                //this.DataContext = new MainViewModel();
+                this.DataContext = MainViewModel;
 
                 //this.RightToLeftMarquee(20);
 

@@ -2,7 +2,7 @@
 
 namespace demo_mah_wpf
 {
-    public class ViewModel
+    public class MainViewModel
     {
         private CentralBookingViewModel _bookingListA;
         public CentralBookingViewModel CentralBookingViewModel
@@ -34,7 +34,7 @@ namespace demo_mah_wpf
 
 
 
-        public ViewModel(IVoiceService voiceService, IAutoMapperService autoMapperService)
+        public MainViewModel(IVoiceService voiceService, IAutoMapperService autoMapperService)
         {
             this.CentralBookingViewModel = new CentralBookingViewModel(voiceService, autoMapperService);
             this.WalkInBookingViewModel = new WalkInBookingViewModel(voiceService, autoMapperService);

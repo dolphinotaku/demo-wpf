@@ -260,7 +260,7 @@
     <Compile Include="DataTemplate\CentralBookingPaginationDataTemplateSelector.cs" />
     <Compile Include="Entity\CentralBookingViewModel.cs" />
     <Compile Include="Master\TaskType.cs" />
-    <Compile Include="Entity\ViewModel.cs" />
+    <Compile Include="Entity\MainViewModel.cs" />
     <Compile Include="Service\IVoiceService.cs" />
     <Compile Include="Service\VoiceService.cs" />
     <Page Include="Controls\ScrollText.xaml">

@@ -35,7 +35,7 @@
         <local:BookingPaginationDataTemplateSelector x:Key="MyDataTemplateSelector"/>
         <local:BusBookingPaginationDataTemplateSelector x:Key="BusBookingTemplateSelector"/>
 
-        <!--<local:ViewModel x:Key="MyTodoList"/>-->
+        <!--<local:MainViewModel x:Key="MyTodoList"/>-->
 
         <DataTemplate x:Key="ImportantTaskTemplate">
             <DataTemplate.Resources>

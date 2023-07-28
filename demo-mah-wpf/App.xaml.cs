@@ -110,7 +110,7 @@ namespace demo_mah_wpf
             }
 
             // Show automata at all screen
-            var mainViewModel = container.Resolve<ViewModel>(
+            var mainViewModel = container.Resolve<MainViewModel>(
                     new ParameterOverride("backgroundColor", _screenColors[Math.Min(pos++, _screenColors.Length - 1)]),
                     new ParameterOverride("primary", screen.Primary),
                     new ParameterOverride("displayName", screen.DeviceName));

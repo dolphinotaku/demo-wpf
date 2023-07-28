@@ -89,7 +89,7 @@ namespace demo_mah_wpf.Service
         {
             if (this._announcedRecordList.Any(a => a.Id == voiceAnnouncement.Id)) return;
             MergeSpeechOfVoice(voiceAnnouncement);
-            _announcementQueueList.Insert(0, voiceAnnouncement);
+            _announcementQueueList.Add(voiceAnnouncement);
         }
         public void AddRange(List<VoiceAnnouncement> list)
         {
@@ -97,7 +97,7 @@ namespace demo_mah_wpf.Service
             {
                 if (this._announcedRecordList.Any(a => a.Id == voiceAnnouncement.Id)) continue;
                 MergeSpeechOfVoice(voiceAnnouncement);
-                _announcementQueueList.Insert(0, voiceAnnouncement);
+                _announcementQueueList.Add(voiceAnnouncement);
             }
         }
 
