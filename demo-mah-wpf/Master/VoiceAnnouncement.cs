@@ -2,8 +2,8 @@
 {
     public class VoiceAnnouncement
     {
+        public int Id { get; set; }
         public SpeakLanguage SpeakLanguage { get; set; }
-
         public int SpeakRate { get; set; }
         public string EngText { get; set; }
         public string ZhHkText { get; set; }
@@ -17,15 +17,17 @@
             EngText = "Testing 1 2 3, testing completed.";
             SpeakRate = 1;
         }
-        public VoiceAnnouncement(SpeakLanguage speakLanguage, string ticketNum, string roomNum)
+        public VoiceAnnouncement(int id, SpeakLanguage speakLanguage, string ticketNum, string roomNum)
         {
+            Id = id;
             SpeakLanguage = speakLanguage;
             TicketNum = ticketNum;
             RoomNum = roomNum;
             SpeakRate = 1;
         }
-        public VoiceAnnouncement(SpeakLanguage speakLanguage, string ticketNum, string roomNum, int speakRate)
+        public VoiceAnnouncement(int id, SpeakLanguage speakLanguage, string ticketNum, string roomNum, int speakRate)
         {
+            Id = id;
             SpeakLanguage = speakLanguage;
             TicketNum = ticketNum;
             RoomNum = roomNum;

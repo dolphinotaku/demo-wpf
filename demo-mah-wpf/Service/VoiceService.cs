@@ -2,6 +2,7 @@
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Speech.Synthesis;
 
 namespace demo_mah_wpf.Service
@@ -12,6 +13,7 @@ namespace demo_mah_wpf.Service
         private readonly int _defaultDataTimeInterval = 1000;
 
         private List<VoiceAnnouncement> _announcementQueueList;
+        private List<VoiceAnnouncement> _announcedRecordList;
 
         public event EventHandler OnSomeEvent = delegate { };
         public bool IsCurrentlySpeaking { get; set; }
@@ -21,6 +23,7 @@ namespace demo_mah_wpf.Service
             Log.Debug("VoiceService on");
 
             _announcementQueueList = new List<VoiceAnnouncement>();
+            _announcedRecordList = new List<VoiceAnnouncement>();
 
             _announceTimer = new System.Timers.Timer(_defaultDataTimeInterval);
             _announceTimer.Elapsed += PlayVoiceTimerTick;
@@ -50,11 +53,14 @@ namespace demo_mah_wpf.Service
             Log.Debug(string.Format("PlayVoiceTimerTick() - task - get index 0 announcement"));
 
             var currentAnnouncement = _announcementQueueList[0];
+            this._announcedRecordList.Add(currentAnnouncement);
             _announcementQueueList.RemoveAt(0);
 
             Play(currentAnnouncement.SpeakRate, SpeakLanguageToString(SpeakLanguage.English), currentAnnouncement.EngText);
-            //Play(currentAnnouncement.SpeakRate, SpeakLanguageToString(SpeakLanguage.ChineseTraditional), currentAnnouncement.ZH_HK_Text);
-            //Play(currentAnnouncement.SpeakRate, SpeakLanguageToString(SpeakLanguage.ChineseSimplified), currentAnnouncement.ZH_CN_Text);
+            //Play(currentAnnouncement.SpeakRate, SpeakLanguageToString(SpeakLanguage.English), currentAnnouncement.EngText);
+            //Play(currentAnnouncement.SpeakRate, SpeakLanguageToString(SpeakLanguage.English), currentAnnouncement.EngText);
+            Play(currentAnnouncement.SpeakRate, SpeakLanguageToString(SpeakLanguage.ChineseTraditional), currentAnnouncement.ZhHkText);
+            Play(currentAnnouncement.SpeakRate, SpeakLanguageToString(SpeakLanguage.ChineseSimplified), currentAnnouncement.ZhCnText);
 
             IsCurrentlySpeaking = false;
 
@@ -68,7 +74,7 @@ namespace demo_mah_wpf.Service
             speechSynthesizer.SpeakCompleted += (s, e) => IsCurrentlySpeaking = false;
             speechSynthesizer.Rate = rate;
             speechSynthesizer.SelectVoice(voice);
-            speechSynthesizer.SpeakAsync(text);
+            speechSynthesizer.Speak(text);
         }
 
         public List<VoiceAnnouncement> GetAnnouncementList()
@@ -81,6 +87,7 @@ namespace demo_mah_wpf.Service
         }
         public void Add(VoiceAnnouncement voiceAnnouncement)
         {
+            if (this._announcedRecordList.Any(a => a.Id == voiceAnnouncement.Id)) return;
             MergeSpeechOfVoice(voiceAnnouncement);
             _announcementQueueList.Insert(0, voiceAnnouncement);
         }
@@ -88,6 +95,7 @@ namespace demo_mah_wpf.Service
         {
             foreach (VoiceAnnouncement voiceAnnouncement in list)
             {
+                if (this._announcedRecordList.Any(a => a.Id == voiceAnnouncement.Id)) continue;
                 MergeSpeechOfVoice(voiceAnnouncement);
                 _announcementQueueList.Insert(0, voiceAnnouncement);
             }
@@ -100,13 +108,13 @@ namespace demo_mah_wpf.Service
         {
             if (_voiceAnnouncement.RoomNum.StartsWith("S"))
             {
-                _voiceAnnouncement.EngText = $"Hello Ticket number {_voiceAnnouncement.TicketNum} please go to zone {_voiceAnnouncement.RoomNum} at the indoor area";
+                _voiceAnnouncement.EngText = $"Hello Ticket number {_voiceAnnouncement.TicketNum} please go to zone {_voiceAnnouncement.RoomNum}";
                 _voiceAnnouncement.ZhHkText = $"你好醜号 {_voiceAnnouncement.TicketNum} 請到 {_voiceAnnouncement.RoomNum}";
                 _voiceAnnouncement.ZhCnText = $"你好筹號 {_voiceAnnouncement.TicketNum} 请到 {_voiceAnnouncement.RoomNum}";
             }
             else
             {
-                _voiceAnnouncement.EngText = $"Hello Ticket number {_voiceAnnouncement.TicketNum} please go to zone {_voiceAnnouncement.RoomNum} at the outdoor area";
+                _voiceAnnouncement.EngText = $"Hello Ticket number {_voiceAnnouncement.TicketNum} please go to zone {_voiceAnnouncement.RoomNum}";
                 _voiceAnnouncement.ZhHkText = $"你好醜号 {_voiceAnnouncement.TicketNum} 請到 {_voiceAnnouncement.RoomNum}";
                 _voiceAnnouncement.ZhCnText = $"你好筹號 {_voiceAnnouncement.TicketNum} 请到 {_voiceAnnouncement.RoomNum}";
             }

@@ -74,33 +74,32 @@ namespace demo_mah_wpf
             new CentralBooking("C001", "1", 2, TaskType.Home),
             new CentralBooking("C002", "2", 2, TaskType.Home),
             new CentralBooking("C003", "3", 2, TaskType.Home),
-            new CentralBooking("C004", "4", 2, TaskType.Home),
-            new CentralBooking("C005", "5", 2, TaskType.Home),
-            new CentralBooking("C006", "6", 2, TaskType.Home),
-            new CentralBooking("C007", "7", 2, TaskType.Home),
-            new CentralBooking("C008", "8", 2, TaskType.Home),
-            new CentralBooking("C009", "9", 2, TaskType.Home),
-            new CentralBooking("C010", "10", 2, TaskType.Home)
+            //new CentralBooking("C004", "4", 2, TaskType.Home),
+            //new CentralBooking("C005", "5", 2, TaskType.Home),
+            //new CentralBooking("C006", "6", 2, TaskType.Home),
+            //new CentralBooking("C007", "7", 2, TaskType.Home),
+            //new CentralBooking("C008", "8", 2, TaskType.Home),
+            //new CentralBooking("C009", "9", 2, TaskType.Home),
+            //new CentralBooking("C010", "10", 2, TaskType.Home)
         };
 
         private List<CentralBooking> dummyData20List3 = new List<CentralBooking>()
         {
-            new CentralBooking("C041", "1", 2, TaskType.Home),
-            new CentralBooking("C042", "2", 2, TaskType.Home),
-            new CentralBooking("C043", "3", 2, TaskType.Home),
-            new CentralBooking("C044", "4", 2, TaskType.Home),
-            new CentralBooking("C045", "5", 2, TaskType.Home),
-            new CentralBooking("C046", "6", 2, TaskType.Home),
-            new CentralBooking("C047", "7", 2, TaskType.Home)
+            new CentralBooking("C002", "2", 2, TaskType.Home),
+            new CentralBooking("C041", "11", 2, TaskType.Home),
+            new CentralBooking("C042", "12", 2, TaskType.Home),
+            //new CentralBooking("C044", "4", 2, TaskType.Home),
+            //new CentralBooking("C045", "5", 2, TaskType.Home),
+            //new CentralBooking("C046", "6", 2, TaskType.Home),
+            //new CentralBooking("C047", "7", 2, TaskType.Home)
         };
 
         private List<CentralBooking> dummyData10List3 = new List<CentralBooking>()
         {
-            new CentralBooking("C061", "1", 2, TaskType.Home),
-            new CentralBooking("C062", "2", 2, TaskType.Home),
-            new CentralBooking("C063", "3", 2, TaskType.Home),
-            new CentralBooking("C064", "4", 2, TaskType.Home),
-            new CentralBooking("C065", "5", 2, TaskType.Home)
+            new CentralBooking("C041", "11", 2, TaskType.Home),
+            new CentralBooking("C042", "12", 2, TaskType.Home),
+            new CentralBooking("C061", "21", 2, TaskType.Home),
+            new CentralBooking("C062", "22", 2, TaskType.Home),
         };
 
         public Task<List<CentralBooking>> GetAllData()

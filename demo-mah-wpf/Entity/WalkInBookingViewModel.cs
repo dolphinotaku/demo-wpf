@@ -74,34 +74,29 @@ namespace demo_mah_wpf
         {
             new WalkInBooking("W001", "S1", 2, TaskType.Home),
             new WalkInBooking("W002", "S2", 2, TaskType.Home),
-            new WalkInBooking("W003", "S3", 2, TaskType.Home),
-            new WalkInBooking("W004", "S4", 2, TaskType.Home),
-            new WalkInBooking("W005", "S5", 2, TaskType.Home),
-            new WalkInBooking("W006", "S6", 2, TaskType.Home),
-            new WalkInBooking("W007", "S7", 2, TaskType.Home),
-            new WalkInBooking("W008", "S8", 2, TaskType.Home),
-            new WalkInBooking("W009", "S9", 2, TaskType.Home),
-            new WalkInBooking("W010", "S10", 2, TaskType.Home)
+            //new WalkInBooking("W003", "S3", 2, TaskType.Home),
+            //new WalkInBooking("W004", "S4", 2, TaskType.Home),
+            //new WalkInBooking("W005", "S5", 2, TaskType.Home),
+            //new WalkInBooking("W006", "S6", 2, TaskType.Home),
+            //new WalkInBooking("W007", "S7", 2, TaskType.Home),
+            //new WalkInBooking("W008", "S8", 2, TaskType.Home),
+            //new WalkInBooking("W009", "S9", 2, TaskType.Home),
+            //new WalkInBooking("W010", "S10", 2, TaskType.Home)
         };
 
         private List<WalkInBooking> dummyData20List3 = new List<WalkInBooking>()
         {
-            new WalkInBooking("W041", "S1", 2, TaskType.Home),
-            new WalkInBooking("W042", "S2", 2, TaskType.Home),
-            new WalkInBooking("W043", "S3", 2, TaskType.Home),
-            new WalkInBooking("W044", "S4", 2, TaskType.Home),
-            new WalkInBooking("W045", "S5", 2, TaskType.Home),
-            new WalkInBooking("W046", "S6", 2, TaskType.Home),
-            new WalkInBooking("W047", "S7", 2, TaskType.Home)
+            new WalkInBooking("W001", "S1", 2, TaskType.Home),
+            new WalkInBooking("W002", "S2", 2, TaskType.Home),
+            new WalkInBooking("W041", "S11", 2, TaskType.Home),
         };
 
         private List<WalkInBooking> dummyData10List3 = new List<WalkInBooking>()
         {
-            new WalkInBooking("W061", "S1", 2, TaskType.Home),
-            new WalkInBooking("W062", "S2", 2, TaskType.Home),
-            new WalkInBooking("W063", "S3", 2, TaskType.Home),
-            new WalkInBooking("W064", "S4", 2, TaskType.Home),
-            new WalkInBooking("W065", "S5", 2, TaskType.Home),
+            new WalkInBooking("W001", "S1", 2, TaskType.Home),
+            new WalkInBooking("W002", "S2", 2, TaskType.Home),
+            new WalkInBooking("W041", "S11", 2, TaskType.Home),
+            new WalkInBooking("W061", "S21", 2, TaskType.Home),
         };
 
         public Task<List<WalkInBooking>> GetAllData()

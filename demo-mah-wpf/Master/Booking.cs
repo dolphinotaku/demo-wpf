@@ -9,6 +9,7 @@ namespace demo_mah_wpf
 {
     public class Booking : INotifyPropertyChanged
     {
+        protected int _id;
         protected string _description;
         protected string _name;
         protected string _ticketNum;
@@ -20,14 +21,24 @@ namespace demo_mah_wpf
         {
         }
 
-        public Booking(string ticketNum, string roomNum, int priority, TaskType type)
+        public Booking(int id, string ticketNum, string roomNum, int priority, TaskType type)
         {
+            _id = id;
             _ticketNum = ticketNum;
             _roomNum = roomNum;
             _priority = priority;
             _type = type;
         }
 
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
         public string TicketNum
         {
             get { return _ticketNum; }
@@ -44,7 +55,7 @@ namespace demo_mah_wpf
             set
             {
                 _roomNum = value;
-                OnPropertyChanged("Description");
+                OnPropertyChanged("RoomNum");
             }
         }
 
