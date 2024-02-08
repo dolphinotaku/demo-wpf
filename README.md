@@ -57,9 +57,10 @@ The facility staff and cleaner should clean, prepare and set up a fire depending
 
 # Functionality Scope
 5 area
-- Top bar (DateTime, Organization Name)
-- Bus booking area
-- Left side(C/S area), Right side(walk-in area)
+- Top bar: DateTime, Organization Name
+- Bus booking area: DataTemplate
+- This section contains two areas: Left side(C/S area), Right side(walk-in area)
+- Bottom bar: scrolling/slide the text, same work as HTML marquee element
 
 ## Get Data
 - get client setting, operation data(Operation Mode, Fire Alarm) from API
@@ -78,7 +79,7 @@ display booking information in pagination
 - the fire alarm model will not affected by the operation mode
 
 ## Fire Alarm On/Off
-when fire alarm is on, the EVACUATE warning message and EVACUATE guide will display cover on whole screen
+If fire alarm is on, the EVACUATE warning message and EVACUATE guide will display cover on the whole screen
 
 # Dependence
 ## NuGet
